@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding JavaScript Closures - Saptarshi's Digest</title>
+    <style>
+        :root {
+            --primary-color: #61dafb;
+            --secondary-color: #282c34;
+            --text-color: #f0f0f0;
+            --accent-color: #98c379;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: rgba(32, 35, 42, 0.8);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .meta {
+            color: var(--accent-color);
+            font-style: italic;
+        }
+
+        .content {
+            margin-top: 40px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        code {
+            background-color: rgba(97, 218, 251, 0.1);
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 2px 4px;
+        }
+
+        pre {
+            background-color: rgba(97, 218, 251, 0.1);
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Understanding JavaScript Closures</h1>
+            <p class="meta">Published on September 8, 2024 | By Saptarshi</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="content">
+            <p>JavaScript closures are a powerful feature that often confuses newcomers to the language. In this post, we'll demystify closures and explore their practical applications.</p>
+
+            <h2>What is a Closure?</h2>
+            <p>A closure is the combination of a function and the lexical environment within which that function was declared. This environment consists of any local variables that were in-scope at the time the closure was created.</p>
+
+            <h2>A Simple Example</h2>
+            <pre><code>function outerFunction(x) {
+    let y = 10;
+    function innerFunction() {
+        console.log(x + y);
+    }
+    return innerFunction;
+}
+
+const closure = outerFunction(5);
+closure(); // Outputs: 15</code></pre>
+            <p>In this example, <code>innerFunction</code> forms a closure over the variables <code>x</code> and <code>y</code> from its outer scope.</p>
+
+            <h2>Practical Uses of Closures</h2>
+            <h3>1. Data Privacy</h3>
+            <p>Closures can be used to create private variables and methods:</p>
+            <pre><code>function counter() {
+    let count = 0;
+    return {
+        increment: function() {
+            count++;
+            console.log(count);
+        },
+        decrement: function() {
+            count--;
+            console.log(count);
+        }
+    };
+}
+
+const myCounter = counter();
+myCounter.increment(); // Outputs: 1
+myCounter.increment(); // Outputs: 2
+myCounter.decrement(); // Outputs: 1</code></pre>
+
+            <h3>2. Function Factories</h3>
+            <p>Closures allow us to create functions with customized behavior:</p>
+            <pre><code>function multiplyBy(factor) {
+    return function(number) {
+        return number * factor;
+    };
+}
+
+const double = multiplyBy(2);
+const triple = multiplyBy(3);
+
+console.log(double(5)); // Outputs: 10
+console.log(triple(5)); // Outputs: 15</code></pre>
+
+            <h2>Conclusion</h2>
+            <p>Closures are a fundamental concept in JavaScript that enable powerful programming patterns. By understanding and leveraging closures, you can write more efficient and maintainable code.</p>
+        </article>
+    </main>
+</body>
+</html>

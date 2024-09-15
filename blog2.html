@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Basic Website - Saptarshi's Digest</title>
+    <style>
+        :root {
+            --primary-color: #61dafb;
+            --secondary-color: #282c34;
+            --text-color: #f0f0f0;
+            --accent-color: #98c379;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: rgba(32, 35, 42, 0.8);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .meta {
+            color: var(--accent-color);
+            font-style: italic;
+        }
+
+        .content {
+            margin-top: 40px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        code {
+            background-color: rgba(97, 218, 251, 0.1);
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 2px 4px;
+        }
+
+        pre {
+            background-color: rgba(97, 218, 251, 0.1);
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Building a Basic Website</h1>
+            <p class="meta">Published on September 8, 2024 | By Saptarshi</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="content">
+            <p>Welcome to this guide on building a basic website! Whether you're a complete beginner or looking to refresh your skills, this tutorial will walk you through the fundamental steps of creating a simple webpage.</p>
+
+            <h2>1. Setting Up Your HTML Structure</h2>
+            <p>Every webpage starts with a basic HTML structure. Here's a simple template to get you started:</p>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My First Webpage&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome to My Website!&lt;/h1&gt;
+    &lt;p&gt;This is my first webpage.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+            <h2>2. Adding Some Style with CSS</h2>
+            <p>CSS helps make your website visually appealing. You can add styles directly in your HTML file using a <code>&lt;style&gt;</code> tag:</p>
+            <pre><code>&lt;style&gt;
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
+    h1 {
+        color: #333;
+    }
+&lt;/style&gt;</code></pre>
+
+            <h2>3. Making it Interactive with JavaScript</h2>
+            <p>JavaScript adds interactivity to your website. Here's a simple example that changes the text when a button is clicked:</p>
+            <pre><code>&lt;button id="myButton"&gt;Click me!&lt;/button&gt;
+&lt;p id="demo"&gt;This text will change.&lt;/p&gt;
+
+&lt;script&gt;
+    document.getElementById("myButton").onclick = function() {
+        document.getElementById("demo").innerHTML = "Hello, JavaScript!";
+    }
+&lt;/script&gt;</code></pre>
+
+            <h2>Conclusion</h2>
+            <p>This is just the beginning of your web development journey. As you progress, you'll learn more advanced techniques and best practices. Keep experimenting and happy coding!</p>
+        </article>
+    </main>
+</body>
+</html>
