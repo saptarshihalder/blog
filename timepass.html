@@ -3,103 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Epic Game Collection</title>
+    <title>Nexus Game Hub</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap');
+
         :root {
-            --primary: #6366f1;
-            --secondary: #22d3ee;
-            --background: #0f172a;
-            --surface: #1e293b;
-            --text: #e2e8f0;
-            --text-secondary: #94a3b8;
+            --primary: #8b5cf6;
+            --secondary: #06b6d4;
+            --background: #030712;
+            --surface: #1f2937;
+            --text: #f3f4f6;
+            --text-secondary: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             background-color: var(--background);
             color: var(--text);
-            margin: 0;
-            padding: 0;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 1200px;
             width: 100%;
-            padding: 40px 20px;
+            padding: 60px 20px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
+            position: relative;
         }
 
         h1 {
-            font-size: 4rem;
-            font-weight: 800;
+            font-size: 5rem;
+            font-weight: 700;
             margin: 0;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: var(--text-secondary);
-            margin-top: 10px;
+            margin-top: 20px;
+            font-weight: 300;
         }
 
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 50px;
+            perspective: 1000px;
         }
 
         .game-item {
             background-color: var(--surface);
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .game-item:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .game-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .game-item:hover img {
-            transform: scale(1.1);
-        }
-
-        .game-content {
-            padding: 20px;
-        }
-
-        .game-item h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .game-item p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin: 0;
+            transform: translateY(-20px) rotateX(10deg);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
         }
 
         .game-item::before {
@@ -108,38 +92,84 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
+            bottom: 0;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+            border-radius: 24px;
         }
 
         .game-item:hover::before {
-            transform: scaleX(1);
+            opacity: 0.1;
+        }
+
+        .game-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .game-item:hover img {
+            transform: scale(1.1) translateZ(20px);
+        }
+
+        .game-content {
+            padding: 30px;
+            transform: translateZ(30px);
+        }
+
+        .game-item h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .game-item p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin: 0 0 20px 0;
+            line-height: 1.6;
         }
 
         .play-btn {
             display: inline-block;
-            margin-top: 15px;
-            padding: 8px 20px;
-            background-color: var(--primary);
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: white;
             text-decoration: none;
             border-radius: 30px;
-            font-weight: 600;
+            font-weight: 500;
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .play-btn:hover {
-            background-color: var(--secondary);
-            transform: translateY(-2px);
+        .play-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+        .play-btn:hover::before {
+            opacity: 1;
+        }
+
+        .play-btn span {
+            position: relative;
+            z-index: 1;
         }
 
         .floating-shapes {
@@ -155,13 +185,36 @@
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             border-radius: 50%;
             opacity: 0.1;
-            animation: float 15s infinite;
+            animation: float 20s infinite;
+            filter: blur(5px);
         }
 
-        .shape:nth-child(1) { width: 80px; height: 80px; left: 10%; top: 20%; animation-delay: 0s; }
-        .shape:nth-child(2) { width: 60px; height: 60px; left: 80%; top: 60%; animation-delay: 2s; }
-        .shape:nth-child(3) { width: 100px; height: 100px; left: 30%; top: 70%; animation-delay: 4s; }
-        .shape:nth-child(4) { width: 50px; height: 50px; left: 70%; top: 30%; animation-delay: 6s; }
+        .shape:nth-child(1) { width: 150px; height: 150px; left: 10%; top: 20%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 100px; height: 100px; left: 80%; top: 60%; animation-delay: 3s; }
+        .shape:nth-child(3) { width: 200px; height: 200px; left: 30%; top: 70%; animation-delay: 6s; }
+        .shape:nth-child(4) { width: 80px; height: 80px; left: 70%; top: 30%; animation-delay: 9s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(50px, -50px) rotate(90deg); }
+            50% { transform: translate(100px, 50px) rotate(180deg); }
+            75% { transform: translate(50px, 100px) rotate(270deg); }
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(6, 182, 212, 0.7); }
+        }
+
+        h1 {
+            animation: glow 5s infinite;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .subtitle { font-size: 1.2rem; }
+            .game-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -173,56 +226,56 @@
     </div>
     <div class="container">
         <header>
-            <h1>Epic Game Collection</h1>
-            <p class="subtitle">Discover and play amazing browser games!</p>
+            <h1>Nexus Game Hub</h1>
+            <p class="subtitle">Immerse yourself in extraordinary gaming experiences</p>
         </header>
         <div class="game-grid">
             <div class="game-item">
-                <img src="/api/placeholder/280/200" alt="Emoji Maker">
+                <img src="/api/placeholder/300/220" alt="Emoji Architect">
                 <div class="game-content">
-                    <h3>Emoji Maker</h3>
-                    <p>Create your own unique emojis and share them with friends!</p>
-                    <a href="#" class="play-btn">Play Now</a>
+                    <h3>Emoji Architect</h3>
+                    <p>Craft unique emojis and bring your digital expressions to life in this creative sandbox.</p>
+                    <a href="#" class="play-btn"><span>Launch Game</span></a>
                 </div>
             </div>
             <div class="game-item">
-                <img src="/api/placeholder/280/200" alt="Color Picker">
+                <img src="/api/placeholder/300/220" alt="Chromatic Challenge">
                 <div class="game-content">
-                    <h3>Color Picker</h3>
-                    <p>Test your color perception skills in this challenging game.</p>
-                    <a href="#" class="play-btn">Play Now</a>
+                    <h3>Chromatic Challenge</h3>
+                    <p>Push your color perception to the limit in this visually stunning puzzle adventure.</p>
+                    <a href="#" class="play-btn"><span>Launch Game</span></a>
                 </div>
             </div>
             <div class="game-item">
-                <img src="/api/placeholder/280/200" alt="Password Game">
+                <img src="/api/placeholder/300/220" alt="Cryptic Code">
                 <div class="game-content">
-                    <h3>Password Game</h3>
-                    <p>How secure is your password? Test it in this fun and educational game!</p>
-                    <a href="#" class="play-btn">Play Now</a>
+                    <h3>Cryptic Code</h3>
+                    <p>Unravel the mysteries of cybersecurity in this thrilling password-cracking simulation.</p>
+                    <a href="#" class="play-btn"><span>Launch Game</span></a>
                 </div>
             </div>
             <div class="game-item">
-                <img src="/api/placeholder/280/200" alt="Spend Bill Gates' Money">
+                <img src="/api/placeholder/300/220" alt="Billionaire's Dilemma">
                 <div class="game-content">
-                    <h3>Spend Bill Gates' Money</h3>
-                    <p>Experience being a billionaire for a day! What would you buy?</p>
-                    <a href="#" class="play-btn">Play Now</a>
+                    <h3>Billionaire's Dilemma</h3>
+                    <p>Experience the thrill and responsibility of managing vast wealth in this economic simulator.</p>
+                    <a href="#" class="play-btn"><span>Launch Game</span></a>
                 </div>
             </div>
             <div class="game-item">
-                <img src="/api/placeholder/280/200" alt="Draw Your Island">
+                <img src="/api/placeholder/300/220" alt="Archipelago Architect">
                 <div class="game-content">
-                    <h3>Draw Your Island</h3>
-                    <p>Design your own tropical paradise and watch it come to life!</p>
-                    <a href="#" class="play-btn">Play Now</a>
+                    <h3>Archipelago Architect</h3>
+                    <p>Shape your own paradise and witness its ecosystem evolve in this immersive island creator.</p>
+                    <a href="#" class="play-btn"><span>Launch Game</span></a>
                 </div>
             </div>
             <div class="game-item">
-                <img src="/api/placeholder/280/200" alt="Absurd Trolley Problems">
+                <img src="/api/placeholder/300/220" alt="Ethical Enigmas">
                 <div class="game-content">
-                    <h3>Absurd Trolley Problems</h3>
-                    <p>Solve hilarious ethical dilemmas in this thought-provoking game!</p>
-                    <a href="#" class="play-btn">Play Now</a>
+                    <h3>Ethical Enigmas</h3>
+                    <p>Navigate through mind-bending moral mazes in this thought-provoking decision-making game.</p>
+                    <a href="#" class="play-btn"><span>Launch Game</span></a>
                 </div>
             </div>
         </div>
