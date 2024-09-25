@@ -33,7 +33,9 @@
             text-align: center;
             background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
             color: var(--primary-color); /* Fallback color */
         }
 
@@ -46,6 +48,7 @@
             list-style-type: none;
             padding: 0;
             display: inline-block;
+            margin: 0;
         }
 
         nav ul li {
@@ -112,6 +115,7 @@
             text-align: center;
             padding: 20px 0;
             margin-top: 40px;
+            color: var(--text-color);
         }
 
         @media (max-width: 768px) {
@@ -121,6 +125,7 @@
             }
 
             nav ul li {
+                display: block;
                 margin: 10px 0;
             }
         }
