@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Building a Basic Website - Saptarshi's Digest</title>
+    <title>The Privilage of Prejudicing</title>
     <style>
         :root {
             --primary-color: #61dafb;
-            --secondary-color: #282c34;
-            --text-color: #f0f0f0;
+            --secondary-color: #1a1e24;
+            --text-color: #e6e6e6;
             --accent-color: #98c379;
+            --background-color: #282c34;
+            --button-color: #61dafb;
+            --button-text-color: #1a1e24;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--secondary-color);
+            background-color: var(--background-color);
             color: var(--text-color);
-            line-height: 1.6;
+            line-height: 1.8;
             margin: 0;
             padding: 0;
         }
@@ -28,111 +31,136 @@
         }
 
         header {
-            background-color: rgba(32, 35, 42, 0.8);
-            padding: 20px 0;
+            background-color: var(--secondary-color);
+            padding: 40px 0;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         h1 {
             color: var(--primary-color);
-            font-size: 2.5em;
+            font-size: 2.8em;
             margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .meta {
             color: var(--accent-color);
             font-style: italic;
+            font-size: 1.1em;
         }
 
         .content {
             margin-top: 40px;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        h2 {
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 30px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+            text-indent: 1.5em;
+        }
+
+        p:first-of-type {
+            text-indent: 0;
+        }
+
+        p:first-of-type::first-letter {
+            font-size: 3.5em;
+            line-height: 0.65;
+            float: left;
+            margin-right: 10px;
             color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
-        }
-
-        code {
-            background-color: rgba(97, 218, 251, 0.1);
-            border-radius: 3px;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 2px 4px;
-        }
-
-        pre {
-            background-color: rgba(97, 218, 251, 0.1);
-            border-radius: 5px;
-            padding: 15px;
-            overflow-x: auto;
         }
 
         a {
             color: var(--accent-color);
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         a:hover {
+            color: var(--primary-color);
             text-decoration: underline;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--button-color);
+            color: var(--button-text-color);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Building a Basic Website</h1>
-            <p class="meta">Published on September 8, 2024 | By Saptarshi</p>
+            <h1>The Privilage of Prejudicing</h1>
+            <p class="meta"> | December 19, 2024 | By Saptarshi</p>
         </div>
     </header>
 
     <main class="container">
+        <a href="index.html" class="back-button">← Back to Home</a>
         <article class="content">
-            <p>Welcome to this guide on building a basic website! Whether you're a complete beginner or looking to refresh your skills, this tutorial will walk you through the fundamental steps of creating a simple webpage.</p>
+            <p>I was procrastinating (like 90%) of the time when my phone suddenly buzzed to life. It was a notification from my friend. He was pursuing an online degree as his main degree from one of the most reputed universities in India, The Indian Institute Of Technology Madras, a bachelor's degree in Data Science and Engineering, quite similar to mine, except I was at IISER slogging off in the hostel, while he had the "privilege" of attending from his home.</p>
 
-            <h2>1. Setting Up Your HTML Structure</h2>
-            <p>Every webpage starts with a basic HTML structure. Here's a simple template to get you started:</p>
-            <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-    &lt;title&gt;My First Webpage&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;h1&gt;Welcome to My Website!&lt;/h1&gt;
-    &lt;p&gt;This is my first webpage.&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+            <p>
+                <a href="blog2mail.html" onclick="window.open(this.href, 'popup', 'width=600,height=400,scrollbars=yes,resizable=yes'); return false;">
+                    <b>Unlike other messages—usually random memes or uncertainties about our future—this one had an attached email. An email that felt like it had emerged from the deep recesses of someone's frustrated mind, someone who wanted to draw a dividing line between "us" and "them." It highlighted the problems faced by offline students, calling for a discriminatory stance against online learners. Reading it felt like an echo of the elitist undertones that have long plagued our education system.</b>
+                </a>
+            </p>
 
-            <h2>2. Adding Some Style with CSS</h2>
-            <p>CSS helps make your website visually appealing. You can add styles directly in your HTML file using a <code>&lt;style&gt;</code> tag:</p>
-            <pre><code>&lt;style&gt;
-    body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        margin: 0;
-        padding: 20px;
-        background-color: #f4f4f4;
-    }
-    h1 {
-        color: #333;
-    }
-&lt;/style&gt;</code></pre>
+            <p>The INDIAN INSTITUTE OF TECHNOLOGY is a three-worded universe in itself. I'd seen people from "inferior" colleges rush to attend their open fests just for the chance to buy a hoodie labelled IIT and flaunt it in public. This exclusivity turned students into waking zombies, memorizing formulae they'd never truly care about, all for a chance at that elusive three-letter tag. In a land where competition often overshadows curiosity, the IIT name became a currency, a ticket to immediate respect, rather than a place to cultivate genuine interest and thought. The difference between "IIT" and so-called "inferior" institutes was so glaring it bordered on absurd. Yet, overseas, this stark divide seemed to blur. When I spoke to a British exchange student from Oxbridge about inferior UK colleges, he simply shrugged and said they were all roughly the same. The snobbery, the brand-worship, the obsessive hoarding of prestige—it just wasn't there in the same way.</p>
 
-            <h2>3. Making it Interactive with JavaScript</h2>
-            <p>JavaScript adds interactivity to your website. Here's a simple example that changes the text when a button is clicked:</p>
-            <pre><code>&lt;button id="myButton"&gt;Click me!&lt;/button&gt;
-&lt;p id="demo"&gt;This text will change.&lt;/p&gt;
+            <img src="https://raw.githubusercontent.com/saptarshihalder/blog/refs/heads/main/DALL%C2%B7E%202024-12-19%2023.37.47%20-%20An%20artistic%20illustration%20showing%20two%20students_%20one%20walking%20towards%20a%20university%20building%20with%20books%20in%20hand%2C%20and%20the%20other%20sitting%20at%20home%20studying%20on%20(1).png" alt="Source: DALLE AI" />
 
-&lt;script&gt;
-    document.getElementById("myButton").onclick = function() {
-        document.getElementById("demo").innerHTML = "Hello, JavaScript!";
-    }
-&lt;/script&gt;</code></pre>
+            <p>IITs were established to spread world-class education, not restrict it to a lucky elite. Over time, the brand's exclusivity overshadowed its original mission. Attempts like NPTEL and SWAYAM tried to break down some barriers, bringing quality lectures to a broader audience, but they were often clumsy, poorly managed attempts—still some of the best resources we had, but nowhere near transformative enough.</p>
 
-            <h2>Conclusion</h2>
-            <p>This is just the beginning of your web development journey. As you progress, you'll learn more advanced techniques and best practices. Keep experimenting and happy coding!</p>
+            <p>Then came the IITM Online Degree. For the first time, this madness got a fresh jolt of hope. A full-fledged degree from one of the top universities, accessible to thousands who might never step onto campus grounds but were no less eager to learn. Other IITs followed suit, and so did BITS Pilani. Suddenly, the idea that top-quality education could scale beyond the confines of a traditional classroom took on a life of its own. Sure, skeptics complained of "brand dilution," but they failed to see that this wasn't about mass-producing an IIT stamp. It was about extending the original mandate of these institutes—making high-calibre education available to more than just a chosen few who scored well on a particular day.</p>
+
+            <p>And this development isn't some bizarre Indian experiment either. Consider the global stage: Harvard Extension School, the London School of Economics, Johns Hopkins University—prestigious names that need no introduction. They've embraced online degrees for ages, expanding their academic reach far beyond the ivy-covered walls of their campuses. Has their brand lost value because they dared to offer flexibility? Have people stopped revering the LSE's economics department or Johns Hopkins' medical prowess? Hardly. If anything, these global heavyweights have reinforced their standing by acknowledging that genuine learners can emerge anywhere—geography and circumstances be damned.</p>
+
+            <p>Instead of devaluing their brand, these international powerhouses have shown how inclusivity can enhance it. They understand that rigour and credibility aren't weakened by scaling access. It's not about turning education into a cheap commodity; it's about recognizing that talent, curiosity, and dedication to learning aren't the monopolies of a privileged few. They've tapped into a broader pool of minds by providing online avenues, ensuring their alumni networks are more prosperous, diverse, and better equipped to tackle global challenges.</p>
+
+            <p>Back here, we're still struggling with that concept. For those clinging to the notion that the IIT name must remain locked away behind gates of exclusivity, it may be time to step outside that bubble. If world-famous institutions can maintain (and even elevate) their prestige while inviting more learners, why can't we? After all, if the real pride of an institution lies not just in its name but in the kind of thinkers and doers it produces, then broadening access only strengthens that legacy. And if we can't do that, then what's the point of having a name at all?</p>
+
+            <p>As I kept thinking about it, I got another notification from my friend; it said that people who had a high CGPA were eligible to do a Master's in offline mode at IITM and IITR without any entrance exams anymore. I smiled and went back to procrastinating, which I was doing anyway.</p>
         </article>
     </main>
 </body>
