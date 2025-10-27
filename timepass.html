@@ -104,14 +104,38 @@
             opacity: 0.1;
         }
 
-        .game-item img {
+        .game-image {
             width: 100%;
             height: 220px;
-            object-fit: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transition: transform 0.5s ease;
         }
 
-        .game-item:hover img {
+        .game-item:nth-child(2) .game-image {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .game-item:nth-child(3) .game-image {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .game-item:nth-child(4) .game-image {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .game-item:nth-child(5) .game-image {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .game-item:nth-child(6) .game-image {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+
+        .game-item:hover .game-image {
             transform: scale(1.1) translateZ(20px);
         }
 
@@ -172,6 +196,15 @@
             z-index: 1;
         }
 
+        .coming-soon {
+            background: linear-gradient(45deg, #6b7280, #4b5563);
+            cursor: not-allowed;
+        }
+
+        .coming-soon:hover::before {
+            opacity: 0;
+        }
+
         .floating-shapes {
             position: fixed;
             width: 100%;
@@ -227,55 +260,55 @@
     <div class="container">
         <header>
             <h1>The Game Hub</h1>
-            <p class="subtitle">Immerse yourself in timepassing gaming experiences</p>
+            <p class="subtitle">Immerse yourself in captivating gaming experiences</p>
         </header>
         <div class="game-grid">
             <div class="game-item">
-                <img src="/api/placeholder/300/220" alt="Emoji Architect">
+                <div class="game-image">🧠</div>
                 <div class="game-content">
                     <h3>Memory Card Game</h3>
-                    <p>Lets see how good ya memory is.</p>
+                    <p>Let's see how good your memory is in this classic matching challenge.</p>
                     <a href="memory.html" class="play-btn"><span>Launch Game</span></a>
                 </div>
             </div>
             <div class="game-item">
-                <img src="/api/placeholder/300/220" alt="Chromatic Challenge">
+                <div class="game-image">🎨</div>
                 <div class="game-content">
                     <h3>Chromatic Challenge</h3>
                     <p>Push your color perception to the limit in this visually stunning puzzle adventure.</p>
-                    <a href="#" class="play-btn"><span>Launch Game</span></a>
+                    <a href="#" class="play-btn coming-soon"><span>Coming Soon</span></a>
                 </div>
             </div>
             <div class="game-item">
-                <img src="/api/placeholder/300/220" alt="Cryptic Code">
+                <div class="game-image">🔐</div>
                 <div class="game-content">
                     <h3>Cryptic Code</h3>
                     <p>Unravel the mysteries of cybersecurity in this thrilling password-cracking simulation.</p>
-                    <a href="#" class="play-btn"><span>Launch Game</span></a>
+                    <a href="#" class="play-btn coming-soon"><span>Coming Soon</span></a>
                 </div>
             </div>
             <div class="game-item">
-                <img src="/api/placeholder/300/220" alt="Billionaire's Dilemma">
+                <div class="game-image">💰</div>
                 <div class="game-content">
                     <h3>Billionaire's Dilemma</h3>
                     <p>Experience the thrill and responsibility of managing vast wealth in this economic simulator.</p>
-                    <a href="#" class="play-btn"><span>Launch Game</span></a>
+                    <a href="#" class="play-btn coming-soon"><span>Coming Soon</span></a>
                 </div>
             </div>
             <div class="game-item">
-                <img src="/api/placeholder/300/220" alt="Archipelago Architect">
+                <div class="game-image">🏝️</div>
                 <div class="game-content">
                     <h3>Archipelago Architect</h3>
                     <p>Shape your own paradise and witness its ecosystem evolve in this immersive island creator.</p>
-                    <a href="#" class="play-btn"><span>Launch Game</span></a>
+                    <a href="#" class="play-btn coming-soon"><span>Coming Soon</span></a>
                 </div>
             </div>
             <div class="game-item">
-                <img src="/api/placeholder/300/220" alt="Ethical Enigmas">
+                <div class="game-image">🤔</div>
                 <div class="game-content">
                     <h3>Ethical Enigmas</h3>
                     <p>Navigate through mind-bending moral mazes in this thought-provoking decision-making game.</p>
-                    <a href="#" class="play-btn"><span>Launch Game</span></a>
+                    <a href="#" class="play-btn coming-soon"><span>Coming Soon</span></a>
                 </div>
             </div>
         </div>
