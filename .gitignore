@@ -1,0 +1,5 @@
+node_modules/
+assets/js/writing-index.bundle.js
+_site/
+.bundle/
+vendor/

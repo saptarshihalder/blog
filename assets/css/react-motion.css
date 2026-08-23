@@ -1,0 +1,47 @@
+.writing-controls-meta {
+  color: #8f978a;
+}
+
+.writing-sort {
+  color: #9aa391;
+}
+
+.writing-count {
+  color: #7f897b;
+}
+
+.react-ready .writing-controls {
+  position: relative;
+}
+
+.react-ready .writing-controls::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 28px;
+  height: 1px;
+  background: rgba(126, 159, 121, .5);
+  box-shadow: 0 0 9px rgba(119, 157, 113, .12);
+}
+
+.react-ready .post-list-item {
+  animation: index-settle .24s ease both;
+}
+
+@keyframes index-settle {
+  from {
+    opacity: .78;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .react-ready .post-list-item {
+    animation: none;
+  }
+}

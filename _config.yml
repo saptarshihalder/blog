@@ -9,9 +9,7 @@ timezone: "Asia/Kolkata"
 markdown: kramdown
 permalink: pretty
 
-# Keep build/runtime files out of Jekyll's content scanner. ruby/setup-ruby
-# installs cached gems under vendor/bundle, which contains Jekyll's own sample
-# posts and templates; those must never be treated as pages in this site.
+# Keep build/runtime files out of Jekyll's content scanner.
 exclude:
   - README.md
   - Gemfile
@@ -19,3 +17,7 @@ exclude:
   - vendor
   - .bundle
   - .github
+  - node_modules
+  - package.json
+  - package-lock.json
+  - assets/src
