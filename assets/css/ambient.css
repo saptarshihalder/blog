@@ -1,0 +1,209 @@
+/* Ambient field: quiet sci-fi motion behind the editorial UI. */
+
+:root {
+  --bg: #10120f;
+  --surface: #151713;
+  --line: #292c27;
+  --accent: #87927e;
+  --portal-green: #6f8c73;
+  --portal-cold: #6e8580;
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 84% 24%, rgba(75, 101, 78, .055), transparent 30rem),
+    radial-gradient(circle at 12% 84%, rgba(84, 82, 72, .045), transparent 26rem),
+    var(--bg);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(5, 7, 5, .03), rgba(5, 7, 5, .18)),
+    radial-gradient(ellipse at center, transparent 48%, rgba(0, 0, 0, .16) 100%);
+}
+
+.ambient-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: .48;
+  filter: saturate(.72) contrast(.92);
+}
+
+body.is-post .ambient-field {
+  opacity: .28;
+}
+
+.site-header,
+#main-content,
+.site-footer {
+  position: relative;
+  z-index: 2;
+}
+
+.site-header {
+  background: rgba(16, 18, 15, .88);
+  border-bottom-color: rgba(131, 142, 124, .16);
+}
+
+.reading-progress {
+  z-index: 1002;
+}
+
+/* The interface should feel like a working index, not a landing page. */
+.hero {
+  padding-top: clamp(46px, 6vw, 66px);
+  padding-bottom: clamp(26px, 3.4vw, 36px);
+}
+
+.hero-grid {
+  align-items: start;
+}
+
+.hero h1 {
+  max-width: 560px;
+  font-size: clamp(34px, 4.3vw, 48px);
+  line-height: 1.06;
+  letter-spacing: -.018em;
+}
+
+.hero-note {
+  position: relative;
+  padding-left: 17px;
+  margin-top: 4px;
+  border-left: 1px solid rgba(135, 146, 126, .24);
+}
+
+.hero-note::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 0;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(139, 158, 132, .52);
+}
+
+.section-heading {
+  border-bottom-color: rgba(132, 142, 125, .18);
+}
+
+.writing-controls {
+  border-bottom-color: rgba(132, 142, 125, .18);
+}
+
+.post-list-item {
+  position: relative;
+  border-bottom-color: rgba(132, 142, 125, .15);
+}
+
+.post-list-item::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--portal-green);
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity .16s ease;
+}
+
+.post-list-item:hover::before,
+.post-list-item:focus-within::before {
+  opacity: .52;
+}
+
+.post-list-title {
+  letter-spacing: -.008em;
+}
+
+.post-list-link:hover .post-list-title,
+.post-list-link:focus-visible .post-list-title {
+  color: #e7e6df;
+}
+
+.post-list-date,
+.post-list-length,
+.writing-controls-meta,
+.section-heading span {
+  font-variant-numeric: tabular-nums;
+}
+
+.writing-search input {
+  caret-color: #91a58e;
+}
+
+.writing-search-mark {
+  color: #84957f;
+}
+
+.writing-sort:hover,
+.writing-sort:focus-visible {
+  color: #bcc2b7;
+}
+
+.post-header {
+  position: relative;
+}
+
+.post-header::after {
+  content: "";
+  display: block;
+  width: 34px;
+  margin-top: 25px;
+  border-top: 1px solid rgba(130, 144, 125, .28);
+}
+
+.post-content {
+  text-wrap: pretty;
+}
+
+.post-content blockquote {
+  border-left-color: rgba(130, 144, 125, .32);
+}
+
+@media (max-width: 760px) {
+  .ambient-field {
+    opacity: .37;
+  }
+
+  body.is-post .ambient-field {
+    opacity: .2;
+  }
+
+  .hero {
+    padding-top: 42px;
+  }
+
+  .hero h1 {
+    font-size: clamp(32px, 9.5vw, 40px);
+  }
+
+  .hero-note {
+    max-width: 25rem;
+  }
+
+  .post-list-item::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-field {
+    opacity: .24;
+  }
+}
