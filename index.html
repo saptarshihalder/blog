@@ -1,25 +1,26 @@
 ---
 layout: default
 title: Home
+writing_index: true
 ---
 {% assign articles = site.pages | where: "layout", "post" | sort: "date" | reverse %}
 <section class="hero">
   <div class="shell hero-grid">
     <div>
-      <p class="eyebrow">personal archive · since 2024</p>
-      <h1>Essays, fiction, and notes.</h1>
+      <p class="eyebrow">notes · 2024—</p>
+      <h1>Writing and other notes.</h1>
     </div>
-    <p class="hero-note">No schedule and no categories. Just things I wanted to keep.</p>
+    <p class="hero-note">Things I wanted to work through, remember, or keep.</p>
   </div>
 </section>
 
 <section class="section" id="writing">
   <div class="shell">
     <div class="section-heading">
-      <h2>Recent writing</h2>
-      <span>{{ articles | size }} pieces</span>
+      <h2>Index</h2>
+      <span>{{ articles | size }} entries</span>
     </div>
 
-    {% include article-list.html heading_level=3 %}
+    {% include writing-index.html heading_level=3 %}
   </div>
 </section>
