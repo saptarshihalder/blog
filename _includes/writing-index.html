@@ -1,0 +1,24 @@
+{% assign articles = site.pages | where: "layout", "post" | sort: "date" | reverse %}
+<div id="writing-index-root" class="writing-index-root">
+  <div class="writing-index-fallback-meta">
+    <span>{{ articles | size }} entries</span>
+    <span>newest first</span>
+  </div>
+  {% include article-list.html heading_level=include.heading_level %}
+</div>
+
+<script id="writing-index-data" type="application/json">
+[
+{% for article in articles %}
+  {
+    "title": {{ article.title | jsonify }},
+    "subtitle": {{ article.subtitle | default: article.excerpt | strip_html | strip_newlines | truncate: 180 | jsonify }},
+    "date": {{ article.date | date: '%Y-%m-%d' | jsonify }},
+    "displayDate": {{ article.date | date: '%Y.%m.%d' | jsonify }},
+    "readingTime": {{ article.reading_time | default: '' | jsonify }},
+    "author": {{ article.author | default: site.author | jsonify }},
+    "url": {{ article.url | absolute_url | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+{% endfor %}
+]
+</script>
