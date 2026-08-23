@@ -1,0 +1,14 @@
+{
+  "name": "saptarshi-blog-ui",
+  "private": true,
+  "scripts": {
+    "build:ui": "esbuild assets/src/writing-index.jsx --bundle --minify --format=iife --target=es2020 --outfile=assets/js/writing-index.bundle.js"
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.9"
+  }
+}
