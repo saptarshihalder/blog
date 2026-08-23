@@ -5,10 +5,13 @@
     <a class="post-list-link" href="{{ article.url | absolute_url }}">
       <time class="post-list-date" datetime="{{ article.date | date: '%Y-%m-%d' }}">{{ article.date | date: '%d %b %Y' }}</time>
       <div class="post-list-copy">
-        <h{% if include.heading_level == 2 %}2{% else %}3{% endif %} class="post-list-title">{{ article.title }}</h{% if include.heading_level == 2 %}2{% else %}3{% endif %}>
-        <p class="post-list-excerpt">{{ article.subtitle | default: article.excerpt | strip_html | strip_newlines | truncate: 180 }}</p>
+        {% if include.heading_level == 2 %}
+          <h2 class="post-list-title">{{ article.title }}</h2>
+        {% else %}
+          <h3 class="post-list-title">{{ article.title }}</h3>
+        {% endif %}
+        <p class="post-list-excerpt">{{ article.subtitle | default: article.excerpt | strip_html | strip_newlines | truncate: 160 }}</p>
       </div>
-      <span class="post-list-index" aria-hidden="true">{{ forloop.rindex }}</span>
     </a>
   </li>
   {% endfor %}
