@@ -14,10 +14,18 @@ permalink: /archive/
 <section class="section">
   <div class="shell">
     <ol class="post-list">
-      <li class="post-list-item"><a class="post-list-link" href="{{ '/blog4.html' | relative_url }}"><time class="post-list-date">04 Apr 2026</time><div class="post-list-copy"><h2 class="post-list-title">The Man Who Stayed</h2><p class="post-list-excerpt">Fiction · sacrifice, memory, and the shape a hand leaves behind.</p></div><span class="post-list-index">04</span></a></li>
-      <li class="post-list-item"><a class="post-list-link" href="{{ '/blog3.html' | relative_url }}"><time class="post-list-date">26 Oct 2025</time><div class="post-list-copy"><h2 class="post-list-title">A Letter To None</h2><p class="post-list-excerpt">Fiction · gratitude addressed to someone unnamed.</p></div><span class="post-list-index">03</span></a></li>
-      <li class="post-list-item"><a class="post-list-link" href="{{ '/blog2.html' | relative_url }}"><time class="post-list-date">19 Dec 2024</time><div class="post-list-copy"><h2 class="post-list-title">The Privilege of Prejudicing</h2><p class="post-list-excerpt">Essay · education, prestige, and access.</p></div><span class="post-list-index">02</span></a></li>
-      <li class="post-list-item"><a class="post-list-link" href="{{ '/blog1.html' | relative_url }}"><time class="post-list-date">26 Sep 2024</time><div class="post-list-copy"><h2 class="post-list-title">The Hands That Hold Through Time</h2><p class="post-list-excerpt">Essay · an ordinary scene and a long view of love.</p></div><span class="post-list-index">01</span></a></li>
+      {% for piece in site.data.writing %}
+      <li class="post-list-item">
+        <a class="post-list-link" href="{{ piece.url | relative_url }}">
+          <time class="post-list-date" datetime="{{ piece.date | date: '%Y-%m-%d' }}">{{ piece.date | date: '%d %b %Y' }}</time>
+          <div class="post-list-copy">
+            <h2 class="post-list-title">{{ piece.title }}</h2>
+            <p class="post-list-excerpt">{{ piece.archive_note }}</p>
+          </div>
+          <span class="post-list-index">{{ piece.id }}</span>
+        </a>
+      </li>
+      {% endfor %}
     </ol>
   </div>
 </section>
