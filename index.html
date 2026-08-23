@@ -16,50 +16,22 @@ title: Home
   <div class="shell">
     <div class="section-heading">
       <h2>Writing</h2>
-      <span>04 pieces</span>
+      <span>{{ site.data.writing | size | prepend: '0' | slice: -2, 2 }} pieces</span>
     </div>
 
     <ol class="post-list">
+      {% for piece in site.data.writing %}
       <li class="post-list-item">
-        <a class="post-list-link" href="{{ '/blog4.html' | relative_url }}">
-          <time class="post-list-date" datetime="2026-04-04">04 Apr 2026</time>
+        <a class="post-list-link" href="{{ piece.url | relative_url }}">
+          <time class="post-list-date" datetime="{{ piece.date | date: '%Y-%m-%d' }}">{{ piece.date | date: '%d %b %Y' }}</time>
           <div class="post-list-copy">
-            <h3 class="post-list-title">The Man Who Stayed</h3>
-            <p class="post-list-excerpt">A building collapses. A child waits in the dark. One paramedic decides that leaving is no longer an option.</p>
+            <h3 class="post-list-title">{{ piece.title }}</h3>
+            <p class="post-list-excerpt">{{ piece.excerpt }}</p>
           </div>
-          <span class="post-list-index">04</span>
+          <span class="post-list-index">{{ piece.id }}</span>
         </a>
       </li>
-      <li class="post-list-item">
-        <a class="post-list-link" href="{{ '/blog3.html' | relative_url }}">
-          <time class="post-list-date" datetime="2025-10-26">26 Oct 2025</time>
-          <div class="post-list-copy">
-            <h3 class="post-list-title">A Letter To None</h3>
-            <p class="post-list-excerpt">A fictional letter from a parent to the anonymous stem-cell donor who gave a child another tomorrow.</p>
-          </div>
-          <span class="post-list-index">03</span>
-        </a>
-      </li>
-      <li class="post-list-item">
-        <a class="post-list-link" href="{{ '/blog2.html' | relative_url }}">
-          <time class="post-list-date" datetime="2024-12-19">19 Dec 2024</time>
-          <div class="post-list-copy">
-            <h3 class="post-list-title">The Privilege of Prejudicing</h3>
-            <p class="post-list-excerpt">On prestige, access, online education, and our peculiar habit of turning university names into social currency.</p>
-          </div>
-          <span class="post-list-index">02</span>
-        </a>
-      </li>
-      <li class="post-list-item">
-        <a class="post-list-link" href="{{ '/blog1.html' | relative_url }}">
-          <time class="post-list-date" datetime="2024-09-26">26 Sep 2024</time>
-          <div class="post-list-copy">
-            <h3 class="post-list-title">The Hands That Hold Through Time</h3>
-            <p class="post-list-excerpt">An elderly couple, a Bhopal street, and a brief thought about the kind of love that survives ordinary years.</p>
-          </div>
-          <span class="post-list-index">01</span>
-        </a>
-      </li>
+      {% endfor %}
     </ol>
   </div>
 </section>
