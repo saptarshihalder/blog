@@ -29,7 +29,8 @@ body { overflow-x: clip; }
 
 .post-content,
 .email-embed,
-.post-list-copy {
+.post-list-copy,
+.writing-index-root {
   min-width: 0;
 }
 
@@ -41,10 +42,6 @@ body { overflow-x: clip; }
 .post-content pre,
 .post-content table {
   max-width: 100%;
-}
-
-.post-content pre,
-.post-content table {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -60,7 +57,7 @@ body { overflow-x: clip; }
   }
 
   .header-inner {
-    min-height: 56px;
+    min-height: 55px;
     gap: 12px;
     padding-left: max(0px, env(safe-area-inset-left));
     padding-right: max(0px, env(safe-area-inset-right));
@@ -77,14 +74,14 @@ body { overflow-x: clip; }
     position: absolute;
     left: 14px;
     right: 14px;
-    top: 55px;
+    top: 54px;
     display: none;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
     max-height: calc(100dvh - 70px);
     overflow-y: auto;
-    background: #141412;
+    background: #151613;
     border: 1px solid var(--line);
     box-shadow: 0 18px 45px rgba(0,0,0,.3);
     overscroll-behavior: contain;
@@ -110,68 +107,94 @@ body { overflow-x: clip; }
     touch-action: none;
   }
 
-  .hero {
-    padding: 52px 0 40px;
-  }
+  .hero { padding: 43px 0 28px; }
 
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 22px;
+    gap: 16px;
   }
 
   .hero h1 {
-    max-width: 560px;
-    font-size: clamp(38px, 11.5vw, 50px);
-    line-height: 1;
+    max-width: 540px;
+    font-size: clamp(34px, 10vw, 42px);
+    line-height: 1.02;
   }
 
   .hero-note {
-    max-width: 28rem;
-    font-size: 14px;
+    max-width: 30rem;
+    font-size: 13.5px;
   }
 
-  .section { padding: 12px 0 56px; }
+  .section { padding: 6px 0 52px; }
+
+  .writing-controls {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 3px;
+    padding: 7px 0 8px;
+  }
+
+  .writing-search { width: 100%; }
+
+  .writing-search input {
+    width: 100%;
+    min-height: 38px;
+    font-size: 10px;
+  }
+
+  .writing-controls-meta {
+    justify-content: space-between;
+    min-height: 32px;
+  }
+
+  .writing-sort {
+    min-height: 32px;
+    padding: 6px 0;
+  }
 
   .post-list-link {
-    grid-template-columns: 1fr;
-    gap: 7px;
-    padding: 21px 0 22px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 5px 12px;
+    padding: 19px 0 20px;
   }
 
   .post-list-date {
+    grid-column: 1;
     padding-top: 0;
     font-size: 9px;
   }
 
+  .post-list-length {
+    grid-column: 2;
+    grid-row: 1;
+    padding-top: 0;
+    font-size: 9px;
+  }
+
+  .post-list-copy { grid-column: 1 / -1; }
+
   .post-list-title {
-    font-size: clamp(25px, 8vw, 30px);
+    font-size: clamp(24px, 7.5vw, 29px);
   }
 
   .post-list-excerpt {
-    margin-top: 6px;
+    margin-top: 5px;
     font-size: 13px;
   }
 
-  .archive-intro {
-    padding: 52px 0 22px;
-  }
-
-  .archive-intro h1 {
-    font-size: 40px;
-  }
+  .archive-intro { padding: 44px 0 18px; }
+  .archive-intro h1 { font-size: 36px; }
 
   .post-header {
-    padding-top: 50px;
-    padding-bottom: 28px;
+    padding-top: 46px;
+    padding-bottom: 26px;
   }
 
   .post-header h1 {
-    font-size: clamp(36px, 11vw, 46px);
+    font-size: clamp(34px, 10.4vw, 42px);
   }
 
-  .post-deck {
-    font-size: 17px;
-  }
+  .post-deck { font-size: 16.5px; }
 
   .post-content {
     font-size: 18px;
@@ -210,25 +233,15 @@ body { overflow-x: clip; }
   }
 
   .hero {
-    padding-top: 44px;
-    padding-bottom: 34px;
+    padding-top: 38px;
+    padding-bottom: 24px;
   }
 
-  .hero h1 {
-    font-size: clamp(35px, 10.8vw, 42px);
-  }
+  .hero h1 { font-size: clamp(32px, 9.8vw, 38px); }
 
-  .post-header {
-    padding-top: 44px;
-  }
-
-  .post-header h1 {
-    font-size: clamp(34px, 10.5vw, 40px);
-  }
-
-  .post-content {
-    font-size: 17.5px;
-  }
+  .post-header { padding-top: 40px; }
+  .post-header h1 { font-size: clamp(32px, 10vw, 38px); }
+  .post-content { font-size: 17.5px; }
 
   .email-embed {
     padding: 18px 14px;
@@ -243,7 +256,7 @@ body { overflow-x: clip; }
 @media (max-width: 340px) {
   .site-mark-dot { display: none; }
   .site-mark { font-size: 9px; }
-  .hero h1 { font-size: 34px; }
-  .post-header h1 { font-size: 33px; }
+  .hero h1 { font-size: 31px; }
+  .post-header h1 { font-size: 31px; }
   .post-content { font-size: 17px; }
 }
