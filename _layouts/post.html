@@ -1,0 +1,29 @@
+---
+layout: default
+---
+<article class="post-shell">
+  <header class="post-header shell-narrow">
+    <a class="eyebrow back-link" href="{{ '/' | relative_url }}#writing">← all writing</a>
+    <h1>{{ page.title }}</h1>
+    {% if page.subtitle %}<p class="post-deck">{{ page.subtitle }}</p>{% endif %}
+    <div class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%d %B %Y' }}</time>
+      <span aria-hidden="true">·</span>
+      <span>{{ page.author | default: site.author }}</span>
+      {% if page.reading_time %}<span aria-hidden="true">·</span><span>{{ page.reading_time }}</span>{% endif %}
+    </div>
+  </header>
+
+  {% if page.note %}
+  <aside class="post-note shell-narrow">{{ page.note }}</aside>
+  {% endif %}
+
+  <div class="post-content shell-narrow">
+    {{ content }}
+  </div>
+
+  <nav class="post-nav shell-narrow" aria-label="Post navigation">
+    <a href="{{ '/' | relative_url }}#writing">← archive</a>
+    <a href="#main-content">top ↑</a>
+  </nav>
+</article>
