@@ -2,6 +2,7 @@
 layout: default
 title: Home
 ---
+{% assign articles = site.pages | where: "layout", "post" | sort: "date" | reverse %}
 <section class="hero">
   <div class="shell hero-grid">
     <div>
@@ -16,22 +17,9 @@ title: Home
   <div class="shell">
     <div class="section-heading">
       <h2>Writing</h2>
-      <span>{{ site.data.writing | size | prepend: '0' | slice: -2, 2 }} pieces</span>
+      <span>{{ articles | size }} pieces</span>
     </div>
 
-    <ol class="post-list">
-      {% for piece in site.data.writing %}
-      <li class="post-list-item">
-        <a class="post-list-link" href="{{ piece.url | relative_url }}">
-          <time class="post-list-date" datetime="{{ piece.date | date: '%Y-%m-%d' }}">{{ piece.date | date: '%d %b %Y' }}</time>
-          <div class="post-list-copy">
-            <h3 class="post-list-title">{{ piece.title }}</h3>
-            <p class="post-list-excerpt">{{ piece.excerpt }}</p>
-          </div>
-          <span class="post-list-index">{{ piece.id }}</span>
-        </a>
-      </li>
-      {% endfor %}
-    </ol>
+    {% include article-list.html heading_level=3 %}
   </div>
 </section>
