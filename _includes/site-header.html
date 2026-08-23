@@ -1,0 +1,19 @@
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="site-mark" href="{{ '/' | relative_url }}" aria-label="{{ site.title }} home">
+      <span class="site-mark-dot" aria-hidden="true"></span>
+      <span>{{ site.title }}</span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span>menu</span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+      <a href="{{ '/' | relative_url }}#writing">writing</a>
+      <a href="{{ '/archive/' | relative_url }}">archive</a>
+      <a href="https://saptarshihalder.github.io/">website</a>
+      <a href="{{ '/timepass.html' | relative_url }}">timepass</a>
+    </nav>
+  </div>
+</header>

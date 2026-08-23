@@ -1,0 +1,15 @@
+title: "Saptarshi's Digest"
+description: "Essays, fragments, and stories by Saptarshi Halder."
+author: "Saptarshi Halder"
+url: "https://saptarshihalder.github.io"
+baseurl: "/blog"
+lang: "en"
+timezone: "Asia/Kolkata"
+
+markdown: kramdown
+permalink: pretty
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock

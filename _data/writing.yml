@@ -1,0 +1,24 @@
+- id: "04"
+  title: "The Man Who Stayed"
+  date: 2026-04-04
+  url: /blog4.html
+  excerpt: "A building collapses. A child waits in the dark. One paramedic decides that leaving is no longer an option."
+  archive_note: "Fiction · sacrifice, memory, and the shape a hand leaves behind."
+- id: "03"
+  title: "A Letter To None"
+  date: 2025-10-26
+  url: /blog3.html
+  excerpt: "A fictional letter from a parent to the anonymous stem-cell donor who gave a child another tomorrow."
+  archive_note: "Fiction · gratitude addressed to someone unnamed."
+- id: "02"
+  title: "The Privilege of Prejudicing"
+  date: 2024-12-19
+  url: /blog2.html
+  excerpt: "On prestige, access, online education, and our peculiar habit of turning university names into social currency."
+  archive_note: "Essay · education, prestige, and access."
+- id: "01"
+  title: "The Hands That Hold Through Time"
+  date: 2024-09-26
+  url: /blog1.html
+  excerpt: "An elderly couple, a Bhopal street, and a brief thought about the kind of love that survives ordinary years."
+  archive_note: "Essay · an ordinary scene and a long view of love."

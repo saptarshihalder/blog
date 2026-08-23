@@ -1,176 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saptarshi's Digest</title>
-    <style>
-        :root {
-            --primary-color: #61dafb;
-            --secondary-color: #282c34;
-            --text-color: #f0f0f0;
-            --accent-color: #98c379;
-        }
+---
+layout: default
+title: Home
+---
+<section class="hero">
+  <div class="shell hero-grid">
+    <div>
+      <p class="eyebrow">personal writing · since 2024</p>
+      <h1>Things I could not <em>leave unsaid.</em></h1>
+    </div>
+    <p class="hero-note">Essays, stories, small observations, and a few things written because forgetting them felt worse.</p>
+  </div>
+</section>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin-top: 40px;
-            text-align: center;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-fill-color: transparent;
-            color: var(--primary-color); /* Fallback color */
-        }
-
-        nav {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            display: inline-block;
-            margin: 0;
-        }
-
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: var(--accent-color);
-        }
-
-        .blog-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 40px 0;
-        }
-
-        .blog-preview {
-            background-color: rgba(32, 35, 42, 0.6);
-            border-radius: 10px;
-            padding: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .blog-preview:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(97, 218, 251, 0.2);
-        }
-
-        .blog-preview h2 {
-            font-size: 1.8em;
-            margin-top: 0;
-            color: var(--primary-color);
-        }
-
-        .blog-preview p {
-            color: #abb2bf;
-        }
-
-        .blog-preview a {
-            display: inline-block;
-            margin-top: 15px;
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .blog-preview a:hover {
-            color: var(--primary-color);
-        }
-
-        footer {
-            background-color: rgba(32, 35, 42, 0.8);
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 40px;
-            color: var(--text-color);
-        }
-
-        @media (max-width: 768px) {
-            nav ul {
-                display: block;
-                margin: 20px 0;
-            }
-
-            nav ul li {
-                display: block;
-                margin: 10px 0;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Saptarshi's Digest</h1>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="https://saptarshihalder.github.io/">Website</a></li>
-                <li><a href="timepass.html">TimePass</a></li>
-            </ul>
-        </nav>
-
-        <section class="blog-list">
-            <article class="blog-preview">
-                <h2>The Hands That Hold Through Time</h2>
-                <p>I was walking down the streets of the bustling city of Bhopal today. The dust of narrow winding streets, the cry of hawkers along with the smell of biryani and other spices filled the air...</p>
-                <a href="blog1.html">Read More</a>
-            </article>
-
-            <article class="blog-preview">
-                <h2>The Privilege of Prejudicing</h2>
-                <p>I was procrastinating (like 90%) of the time when my phone suddenly buzzed to life. It was a notification from my friend. He was pursuing an......</p>
-                <a href="blog2.html">Read More</a>
-            </article>
-
-            <article class="blog-preview">
-                <h2>A Letter To None</h2>
-                <p>I don't know your name. I'm not allowed to. Not yet, anyway. Maybe not ever. But I need to write this down, even if you never read it. Even if it just goes into the void. Because two years have passed and I still don't know how to carry this gratitude. It's too big. It spills over. It keeps me up at night.</p>
-                <a href="blog3.html">Read More</a>
-            </article>
-
-            <article class="blog-preview">
-                <h2>The Man Who Stayed</h2>
-                <p>The building fell at 4:47 in the afternoon, when the sky above the city was the color of a bruise and the sparrows had already tucked themselves into the eaves of older, kinder buildings. It fell the way all terrible things happen. Not slowly enough to stop. Not quickly enough to be merciful.</p>
-                <a href="blog4.html">Read More</a>
-            </article>
-        </section>
+<section class="section" id="writing">
+  <div class="shell">
+    <div class="section-heading">
+      <h2>Writing</h2>
+      <span>{{ site.data.writing | size | prepend: '0' | slice: -2, 2 }} pieces</span>
     </div>
 
-    <footer>
-        <p>&copy; 2024 Saptarshi's Digest. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+    <ol class="post-list">
+      {% for piece in site.data.writing %}
+      <li class="post-list-item">
+        <a class="post-list-link" href="{{ piece.url | relative_url }}">
+          <time class="post-list-date" datetime="{{ piece.date | date: '%Y-%m-%d' }}">{{ piece.date | date: '%d %b %Y' }}</time>
+          <div class="post-list-copy">
+            <h3 class="post-list-title">{{ piece.title }}</h3>
+            <p class="post-list-excerpt">{{ piece.excerpt }}</p>
+          </div>
+          <span class="post-list-index">{{ piece.id }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
