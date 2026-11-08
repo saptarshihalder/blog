@@ -1,317 +1,653 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Game Hub</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap');
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d0f16">
+<meta name="description" content="A collection of browser games, from quick puzzles to multiplayer matches.">
+<title>The Game Hub</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0d0f16;
+    --rail: #10121a;
+    --panel: #151822;
+    --line: #272b38;
+    --ink: #f3f1fa;
+    --muted: #a2a6b7;
+    --violet: #b5a4ff;
+    --bar: 64px;
+    font: 15px/1.5 Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
 
-        :root {
-            --primary: #8b5cf6;
-            --secondary: #06b6d4;
-            --background: #030712;
-            --surface: #1f2937;
-            --text: #f3f4f6;
-            --text-secondary: #9ca3af;
-        }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  button, input { color: inherit; font: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--violet); outline-offset: 4px; }
+  h1, h2, h3, p { margin: 0; }
+  .icon { width: 18px; height: 18px; flex: none; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  .top {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    min-height: var(--bar);
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 0 28px;
+    background: #10121bf5;
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(14px);
+  }
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--background);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
-        }
+  .brand { display: inline-flex; align-items: center; gap: 10px; flex: none; min-width: 155px; font-size: 20px; font-weight: 720; letter-spacing: -.7px; }
+  .brand .icon { width: 29px; height: 29px; color: var(--violet); }
+  .top-nav { display: flex; align-items: center; gap: 4px; }
+  .top-nav a, .rail a { color: var(--muted); font-size: .87rem; border: 1px solid transparent; border-radius: 9px; }
+  .top-nav a { padding: 7px 13px; white-space: nowrap; }
+  .top-nav a:hover, .rail a:hover { color: var(--ink); background: #1b1e2a; }
+  .top-nav a[aria-current], .rail a[aria-current] { color: #ede7ff; background: #232035; border-color: #37304d; }
 
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            padding: 60px 20px;
-        }
+  .search { margin-left: auto; width: min(100%, 320px); position: relative; display: flex; align-items: center; color: var(--muted); }
+  .search > .icon { position: absolute; left: 12px; pointer-events: none; }
+  .search input { width: 100%; min-width: 0; height: 37px; padding: 0 38px 0 37px; border: 1px solid #303445; border-radius: 9px; background: #191c27; color: var(--ink); font-size: .86rem; }
+  .search input::placeholder { color: var(--muted); }
+  .search input::-webkit-search-cancel-button { appearance: none; }
+  .search input:focus { outline: none; border-color: #9480d8; }
+  .search kbd, .clear { position: absolute; right: 9px; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 5px; }
+  .search kbd { border: 1px solid #353849; font: inherit; font-size: .75rem; pointer-events: none; }
+  .clear { background: none; color: var(--muted); border: 0; padding: 0; }
+  .clear:hover { color: var(--ink); background: #292c3a; }
+  .clear .icon { width: 15px; height: 15px; }
 
-        header {
-            text-align: center;
-            margin-bottom: 80px;
-            position: relative;
-        }
+  .layout { display: grid; grid-template-columns: 192px minmax(0, 1fr); max-width: 1760px; margin: auto; }
+  .rail {
+    position: sticky;
+    top: var(--bar);
+    align-self: start;
+    min-height: calc(100vh - var(--bar));
+    max-height: calc(100vh - var(--bar));
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 14px 18px;
+    background: var(--rail);
+    border-right: 1px solid #20232e;
+  }
 
-        h1 {
-            font-size: 5rem;
-            font-weight: 700;
-            margin: 0;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 1;
-        }
+  .rail nav { display: grid; gap: 4px; }
+  .rail a { display: flex; align-items: center; gap: 11px; padding: 9px 10px; }
+  .rail-label { margin: 23px 11px 8px; color: var(--muted); font-size: .68rem; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; }
+  .rail .back { margin-top: auto; padding-top: 24px; }
+  .rail .back a { border-top: 1px solid #262a36; border-radius: 0; }
+  main { min-width: 0; padding: 20px clamp(20px, 2.1vw, 34px) 30px; }
 
-        .subtitle {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-top: 20px;
-            font-weight: 300;
-        }
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 265px;
+    display: grid;
+    align-items: center;
+    border: 1px solid #303044;
+    border-radius: 17px;
+    background: radial-gradient(ellipse at 79% 41%, #292340 0, #171827 48%, #151723 72%);
+  }
 
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 50px;
-            perspective: 1000px;
-        }
+  .hero-art { position: absolute; z-index: -2; inset: 0 0 0 auto; height: 100%; width: 75%; }
+  .hero::after { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, #151723 2%, #151723f0 27%, #15172300 63%); }
+  .hero-copy { padding: 30px clamp(24px, 4vw, 57px); }
+  .hero-note { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; color: #cbc1f3; font-size: .68rem; font-weight: 660; letter-spacing: .17em; text-transform: uppercase; }
+  .hero-note::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #ac98fb; }
+  .hero h1 { font-size: clamp(2.25rem, 4.15vw, 4.1rem); font-weight: 690; line-height: 1.03; letter-spacing: -.065em; }
+  .hero-description { max-width: 360px; margin-top: 12px; color: #c2c2d2; font-size: 1rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 23px; }
+  .cta { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 40px; padding: 0 13px; border: 1px solid #464456; border-radius: 8px; background: #202132; font-size: .86rem; font-weight: 620; }
+  .cta:hover { background: #2b2d42; }
+  .cta.primary { color: #161127; background: #b9a7ff; border-color: #c3b5ff; }
+  .cta.primary:hover { background: #cbbdff; }
+  .cta .icon { width: 15px; height: 15px; }
 
-        .game-item {
-            background-color: var(--surface);
-            border-radius: 24px;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            transform-style: preserve-3d;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
+  .shelf { margin-top: 22px; }
+  .shelf-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 10px; }
+  .shelf-head h2 { font-size: 1.13rem; font-weight: 670; letter-spacing: -.025em; }
+  .shelf-head h2 .icon { width: 16px; height: 16px; margin-right: 7px; color: var(--violet); vertical-align: -2px; }
+  .more { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: .79rem; white-space: nowrap; }
+  .more .icon { width: 13px; height: 13px; }
+  .more:hover { color: var(--violet); }
+  .genres { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+  .genres a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 6px;
+    border-radius: 9px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: #dedfea;
+    font-size: .83rem;
+  }
 
-        .game-item:hover {
-            transform: translateY(-20px) rotateX(10deg);
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
-        }
+  .genres .icon { color: var(--violet); }
+  .genres a:hover { background: #221f32; border-color: #51456e; }
 
-        .game-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: -1;
-            border-radius: 24px;
-        }
+  .games { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+  .game { position: relative; isolation: isolate; display: flex; align-items: end; min-width: 0; aspect-ratio: 1.6; overflow: hidden; border: 1px solid #37384a; border-radius: 12px; background: #1a1c29; }
+  a.game { transition: border-color .2s, transform .2s; }
+  a.game:hover { transform: translateY(-2px); border-color: #a496d8; }
+  .game-art { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; }
+  .game::after { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, transparent 32%, #0e0f19a8 65%, #0e0f19 100%); }
+  .game-info { display: flex; align-items: end; justify-content: space-between; gap: 5px; width: 100%; padding: 9px; }
+  .game h3 { font-size: .91rem; font-weight: 680; line-height: 1.15; }
+  .game p { margin-top: 4px; color: #c1c4d4; font-size: .7rem; line-height: 1.2; }
+  .launch { display: grid; place-items: center; flex: none; width: 25px; height: 25px; border: 1px solid #ffffff26; border-radius: 50%; background: #25263ba8; }
+  .launch .icon { width: 12px; height: 12px; }
+  .game:hover .launch { color: #18142a; background: #c6b8ff; }
+  .game.soon { border-color: #292c39; }
+  .game.soon .game-art { opacity: .7; }
+  .upcoming .game { aspect-ratio: 1.85; }
+  .listing .games { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .listing .game-info { padding: 13px; }
+  .listing .game h3 { font-size: 1rem; }
+  .listing-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 9px 0 18px; }
+  .listing-head h1 { font-size: clamp(1.75rem, 4vw, 2.6rem); line-height: 1.1; letter-spacing: -.05em; }
+  .listing-head p { color: var(--muted); font-size: .86rem; }
+  .empty { padding: 40px 20px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; color: var(--muted); text-align: center; }
+  footer { margin-top: 24px; padding-top: 13px; border-top: 1px solid #232632; color: var(--muted); font-size: .74rem; }
+  footer a:hover { color: var(--ink); }
 
-        .game-item:hover::before {
-            opacity: 0.1;
-        }
-
-        .game-image {
-            width: 100%;
-            height: 220px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: transform 0.5s ease;
-        }
-
-        .game-item:nth-child(2) .game-image {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .game-item:nth-child(3) .game-image {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .game-item:nth-child(4) .game-image {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        }
-
-        .game-item:nth-child(5) .game-image {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        }
-
-        .game-item:nth-child(6) .game-image {
-            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
-        }
-
-        .game-item:hover .game-image {
-            transform: scale(1.1) translateZ(20px);
-        }
-
-        .game-content {
-            padding: 30px;
-            transform: translateZ(30px);
-        }
-
-        .game-item h3 {
-            margin: 0 0 15px 0;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .game-item p {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin: 0 0 20px 0;
-            line-height: 1.6;
-        }
-
-        .play-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .play-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, var(--secondary), var(--primary));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .play-btn:hover::before {
-            opacity: 1;
-        }
-
-        .play-btn span {
-            position: relative;
-            z-index: 1;
-        }
-
-        .coming-soon {
-            background: linear-gradient(45deg, #6b7280, #4b5563);
-            cursor: not-allowed;
-        }
-
-        .coming-soon:hover::before {
-            opacity: 0;
-        }
-
-        .floating-shapes {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .shape {
-            position: absolute;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            opacity: 0.1;
-            animation: float 20s infinite;
-            filter: blur(5px);
-        }
-
-        .shape:nth-child(1) { width: 150px; height: 150px; left: 10%; top: 20%; animation-delay: 0s; }
-        .shape:nth-child(2) { width: 100px; height: 100px; left: 80%; top: 60%; animation-delay: 3s; }
-        .shape:nth-child(3) { width: 200px; height: 200px; left: 30%; top: 70%; animation-delay: 6s; }
-        .shape:nth-child(4) { width: 80px; height: 80px; left: 70%; top: 30%; animation-delay: 9s; }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(50px, -50px) rotate(90deg); }
-            50% { transform: translate(100px, 50px) rotate(180deg); }
-            75% { transform: translate(50px, 100px) rotate(270deg); }
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
-            50% { text-shadow: 0 0 20px rgba(6, 182, 212, 0.7); }
-        }
-
-        h1 {
-            animation: glow 5s infinite;
-        }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 3rem; }
-            .subtitle { font-size: 1.2rem; }
-            .game-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+  @media (max-width: 1230px) {
+    .games { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (max-width: 980px) {
+    .layout { grid-template-columns: 146px minmax(0, 1fr); }
+    .top { gap: 12px; padding-inline: 17px; }
+    .brand { min-width: 132px; }
+    .rail { padding-inline: 8px; }
+    .games, .listing .games { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .genres { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 700px) {
+    :root { --bar: 57px; }
+    .layout { display: block; }
+    .rail { display: none; }
+    .top-nav { order: 1; width: 100%; }
+    .top-nav a { flex: 1; text-align: center; padding: 6px 4px; font-size: .77rem; }
+    .brand { min-width: 0; font-size: 18px; gap: 6px; }
+    .brand .icon { width: 24px; height: 24px; }
+    .top { flex-wrap: wrap; gap: 7px 12px; padding: 9px 13px 6px; }
+    .search { flex: 1; max-width: 250px; }
+    .search input { font-size: 16px; }
+    .search input::placeholder { font-size: .8rem; }
+    main { padding: 12px 13px 24px; }
+    .hero { min-height: 255px; border-radius: 13px; }
+    .hero-art { width: 92%; opacity: .8; }
+    .hero::after { background: linear-gradient(90deg, #151723 2%, #151723db 39%, #15172339 100%); }
+    .hero-copy { padding: 24px 18px; }
+    .hero h1 { max-width: 330px; }
+    .hero-description { max-width: 240px; font-size: .9rem; }
+    .games, .listing .games { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .listing .game-info { padding: 9px; }
+  }
+  @media (max-width: 370px) {
+    .genres { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .search kbd { display: none; }
+    .search input { padding-right: 30px; }
+    .brand { font-size: 16px; }
+    .game h3, .listing .game h3 { font-size: .83rem; }
+    .game-info, .listing .game-info { padding: 7px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    a.game { transition: none; }
+    a.game:hover { transform: none; }
+  }
+</style>
 </head>
 <body>
-    <div class="floating-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-    <div class="container">
-        <header>
-            <h1>The Game Hub</h1>
-            <p class="subtitle">Immerse yourself in captivating gaming experiences</p>
-        </header>
-        <div class="game-grid">
-            <div class="game-item">
-                <div class="game-image">🐍</div>
-                <div class="game-content">
-                    <h3>Neon Snake</h3>
-                    <p>Guide your glowing serpent through a futuristic arena in this modern twist on the classic.</p>
-                    <a href="#" class="play-btn coming-soon"><span>Coming Soon</span></a>
-                </div>
-            </div>
-            <div class="game-item">
-                <div class="game-image">🎨</div>
-                <div class="game-content">
-                    <h3>Chromatic Challenge</h3>
-                    <p>Push your color perception to the limit in this visually stunning puzzle adventure.</p>
-                    <a href="#" class="play-btn coming-soon"><span>Coming Soon</span></a>
-                </div>
-            </div>
-            <div class="game-item">
-                <div class="game-image">🔐</div>
-                <div class="game-content">
-                    <h3>Cyberops</h3>
-                    <p>Unravel the mysteries of cybersecurity in this thrilling hacking simulation.</p>
-                    <a href="https://saptarshihalder.github.io/Cryptic-Code/" target="_blank" class="play-btn"><span>Play</span></a>
-                </div>
-            </div>
-            <div class="game-item">
-                <div class="game-image">💰</div>
-                <div class="game-content">
-                    <h3>Billionaire's Dilemma</h3>
-                    <p>Experience the thrill and responsibility of managing vast wealth in this economic simulator.</p>
-                    <a href="#" class="play-btn coming-soon"><span>Coming Soon</span></a>
-                </div>
-            </div>
-            <div class="game-item">
-                <div class="game-image">🏝️</div>
-                <div class="game-content">
-                    <h3>Archipelago Architect</h3>
-                    <p>Shape your own paradise and witness its ecosystem evolve in this immersive island creator.</p>
-                    <a href="#" class="play-btn coming-soon"><span>Coming Soon</span></a>
-                </div>
-            </div>
-            <div class="game-item">
-                <div class="game-image">🤔</div>
-                <div class="game-content">
-                    <h3>Ethical Enigmas</h3>
-                    <p>Navigate through mind-bending moral mazes in this thought-provoking decision-making game.</p>
-                    <a href="#" class="play-btn coming-soon"><span>Coming Soon</span></a>
-                </div>
-            </div>
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <symbol id="i-pad" viewBox="0 0 24 24"><path d="M8.3 6h7.4c2.4 0 3.8 1.4 4.6 3.8l1.5 5.1c.7 2.3-.3 3.7-1.9 3.7-1 0-1.7-.5-2.3-1.2l-1.7-2H8.1l-1.7 2c-.6.7-1.3 1.2-2.3 1.2-1.6 0-2.6-1.4-1.9-3.7l1.5-5.1C4.5 7.4 5.9 6 8.3 6Z"/><path d="M7.8 9v5m-2.5-2.5h5m5.3-1.5h.01m2.3 2.3h.01"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.4"/><rect x="14" y="3" width="7" height="7" rx="1.4"/><rect x="3" y="14" width="7" height="7" rx="1.4"/><rect x="14" y="14" width="7" height="7" rx="1.4"/></symbol>
+    <symbol id="i-action" viewBox="0 0 24 24"><path d="m13 8 5-5 3 0v3l-5 5m-7 2-6 6 2 2 6-6M3 3v4l11 11 4-4L7 3H3Zm13 13 5 5m-8-2 6-6"/></symbol>
+    <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M8 3H4v6a2 2 0 1 1 0 4v7h6a2 2 0 1 1 4 0h6v-6a2 2 0 1 0 0-4V4h-6a2 2 0 1 1-4 0H8Z"/></symbol>
+    <symbol id="i-strategy" viewBox="0 0 24 24"><path d="M5 3h3v3h3V3h2v3h3V3h3v6l-3 3 1 5 2 2v2H5v-2l2-2 1-5-3-3Zm2 14h10M8 12h8"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M3 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2m2-16a3 3 0 0 1 0 6m4 10v-2a4 4 0 0 0-3-4"/></symbol>
+    <symbol id="i-sim" viewBox="0 0 24 24"><path d="m2 20 7-11 4 6 3-4 6 9H2Zm12-14h6m-3-3v6"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2c0 6-4 10-10 10 6 0 10 4 10 10 0-6 4-10 10-10-6 0-10-4-10-10Z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M21 12H4m6-6-6 6 6 6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8Z" fill="currentColor" stroke="none"/></symbol>
+    <radialGradient id="tile-light" cx=".73" cy=".27" r=".75">
+      <stop stop-color="#ffffff" stop-opacity=".19"/><stop offset="1" stop-color="#111225" stop-opacity=".15"/>
+    </radialGradient>
+    <linearGradient id="metal" x1=".18" y1="0" x2=".78" y2="1">
+      <stop stop-color="#f5f0ff"/><stop offset=".28" stop-color="#a69fbf"/><stop offset=".6" stop-color="#605a78"/><stop offset="1" stop-color="#302d43"/>
+    </linearGradient>
+    <linearGradient id="tile-floor" x2="0" y2="1">
+      <stop stop-color="#161628" stop-opacity="0"/><stop offset="1" stop-color="#111220" stop-opacity=".78"/>
+    </linearGradient>
+    <symbol id="a-cyber" viewBox="0 0 320 182">
+      <g fill="none" stroke="#8dd4de" opacity=".33">
+        <path d="M0 31h49l18 18h34m-98 25h75l17-17h42M0 116h56l22-22h38m204-71h-50l-14 14h-42m106 61h-60l-29 29h-44M76 164l33-33v-21m117 62-20-20v-31"/>
+        <circle cx="101" cy="49" r="3"/><circle cx="214" cy="37" r="3"/><circle cx="260" cy="98" r="3"/>
+      </g>
+      <g transform="translate(176 78) rotate(-13)">
+        <path d="M0-60 52-30v60L0 60l-52-30v-60Z" fill="#183c4a" stroke="#5ba6b8" stroke-width="2"/>
+        <path d="M0-49 42-25v50L0 49l-42-24v-50Z" fill="#182d3d" stroke="#77c7ce" stroke-opacity=".38"/>
+        <path d="M-12-5v-8a12 12 0 0 1 24 0v8" fill="none" stroke="#94e6e0" stroke-width="4"/>
+        <rect x="-18" y="-6" width="36" height="28" rx="5" fill="#6fbfc3"/>
+        <path d="M0 4v9" stroke="#224753" stroke-width="4" stroke-linecap="round"/>
+      </g>
+    </symbol>
+    <symbol id="a-blocks" viewBox="0 0 320 182">
+      <path d="M0 35h320M0 71h320M0 107h320M0 143h320M38 0v182M74 0v182M110 0v182M146 0v182M182 0v182M218 0v182M254 0v182M290 0v182" stroke="#e4d9ff" opacity=".13"/>
+      <g transform="translate(163 65) rotate(-13)" stroke="#eee1ff" stroke-opacity=".6">
+        <rect x="-56" y="-35" width="108" height="37" rx="6" fill="#9272df"/>
+        <rect x="-20" y="2" width="36" height="37" rx="5" fill="#7854d3"/>
+        <path d="M-20-35V2m36-37V2" opacity=".75"/>
+      </g>
+      <g transform="translate(231 104) rotate(12)" opacity=".63" fill="#8e91eb" stroke="#cbc9ff">
+        <rect width="29" height="29" rx="4"/><rect x="29" width="29" height="29" rx="4"/><rect x="29" y="29" width="29" height="29" rx="4"/>
+      </g>
+    </symbol>
+    <symbol id="a-tiles" viewBox="0 0 320 182">
+      <path d="M-5 129 320 52m-325 105 325-77m-325 105 325-77M31 0l48 182M87 0l48 182M143 0l48 182M199 0l48 182M255 0l48 182" stroke="#fff0d7" opacity=".11"/>
+      <g transform="translate(171 72) rotate(-12)" font-family="system-ui,sans-serif" font-size="29" font-weight="700" text-anchor="middle">
+        <rect x="-94" y="-22" width="53" height="53" rx="8" fill="#987b68"/><rect x="-94" y="-27" width="53" height="53" rx="8" fill="#cfb399"/><text x="-67" y="9" fill="#402d29">2</text>
+        <rect x="-30" y="-25" width="57" height="57" rx="8" fill="#b28663"/><rect x="-30" y="-31" width="57" height="57" rx="8" fill="#e1be99"/><text x="-1" y="8" fill="#4e3027">4</text>
+        <rect x="38" y="-22" width="53" height="53" rx="8" fill="#a36750"/><rect x="38" y="-27" width="53" height="53" rx="8" fill="#d89b73"/><text x="65" y="9" fill="#462721">8</text>
+      </g>
+    </symbol>
+    <symbol id="a-shell" viewBox="0 0 320 182">
+      <g fill="none" stroke="#decdbc" opacity=".17"><circle cx="190" cy="75" r="62"/><circle cx="190" cy="75" r="76"/><path d="M190-16v183m-103-92h207"/></g>
+      <path d="M25 118 73 49l47 69m91 9 47-68 48 68" fill="none" stroke="#c7b9a8" stroke-opacity=".2"/>
+      <g transform="translate(177 75) rotate(17)">
+        <path d="M0-52c26 0 43 36 43 59a43 43 0 1 1-86 0C-43-16-26-52 0-52Z" fill="url(#metal)" stroke="#cec5cb" stroke-width="2"/>
+        <path d="M-45-3c25-11 62-12 90 0l-4 19c-28-10-55-10-82 0Z" fill="#292636" stroke="#b9aeb8" stroke-width="1.5"/>
+        <path d="M-30 2q13-4 24-3m17 0 15 3" fill="none" stroke="#d6c9cf" stroke-linecap="round" opacity=".7"/>
+        <path d="m15 18 5 10-7 6 10 8" fill="none" stroke="#544654" stroke-width="2"/>
+      </g>
+    </symbol>
+    <symbol id="a-chess" viewBox="0 0 320 182">
+      <g transform="translate(144 101) skewX(-35)" fill="#d7cdff" opacity=".14">
+        <path d="M0 0h164v82H0Z" fill="none" stroke="#eee3ff"/>
+        <path d="M0 0h41v20H0zm82 0h41v20H82zM41 20h41v20H41zm82 0h41v20h-41zM0 40h41v20H0zm82 0h41v20H82zM41 60h41v22H41zm82 0h41v22h-41z"/>
+      </g>
+      <path d="M135 119h86v12h-86z" fill="#555273" stroke="#aaa2c4" stroke-width="2"/>
+      <path d="M145 111c14-18 25-27 27-44l-24 15-12-12 23-29 9-4 4-16 10 13c19 1 35 19 35 40l-3 37Z" fill="url(#metal)" stroke="#cbc4e6" stroke-width="2"/>
+      <path d="m166 53 6-5" stroke="#39374b" stroke-width="4" stroke-linecap="round"/>
+      <rect x="140" y="108" width="78" height="12" rx="4" fill="url(#metal)" stroke="#c1b6df"/>
+    </symbol>
+    <symbol id="a-hook" viewBox="0 0 320 182">
+      <circle cx="216" cy="54" r="41" fill="#d8b0be" opacity=".27"/>
+      <path d="M0 139 48 74l25 35 40-56 54 72 37-28 38 31 78-61v115H0Z" fill="#25233e" opacity=".54"/>
+      <path d="M231 0 155 68" stroke="#e6c7e8" stroke-width="2" opacity=".74"/>
+      <path d="m154 68-12 28 25 14-13 23m-12-37-21 26-29 4m49-34 28-11 16-20" fill="none" stroke="#f0d6f0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="159" cy="84" r="9" fill="#f0d6f0"/>
+    </symbol>
+    <symbol id="a-alchemy" viewBox="0 0 320 182">
+      <g fill="none" stroke="#a9e7c6" opacity=".27"><circle cx="173" cy="81" r="69"/><circle cx="173" cy="81" r="54"/><path d="M173 11v139m-68-69h136m-118-51 100 100m0-100L123 130"/></g>
+      <path d="M155 28h36m-30 2v31l-37 57a10 10 0 0 0 9 15h81a10 10 0 0 0 9-15l-37-57V30" fill="#25483c" stroke="#b6e9c6" stroke-width="3"/>
+      <path d="M143 96c25-15 40 12 62-3l16 25a8 8 0 0 1-7 12h-81a8 8 0 0 1-7-12Z" fill="#8acda5"/>
+      <g fill="#daf8e3"><circle cx="168" cy="104" r="4"/><circle cx="183" cy="114" r="3"/><circle cx="184" cy="76" r="3"/><circle cx="163" cy="63" r="3"/></g>
+    </symbol>
+    <symbol id="a-skribbl" viewBox="0 0 320 182">
+      <path d="M15 100c58-51 59-5 85-7 30-3 12-46 40-49 22-2 18 23 40 23" fill="none" stroke="#f1b1e7" stroke-width="6" stroke-linecap="round"/>
+      <g transform="translate(202 61) rotate(34)">
+        <path d="M-11-38q0-8 8-8h6q8 0 8 8v71L0 54l-11-21Z" fill="#e3bada" stroke="#f0d2e9" stroke-width="2"/>
+        <path d="M-10-27h20m-20 60h20M0-26v55" stroke="#915985" stroke-width="2"/>
+        <path d="m-4 46 4 8 4-8" fill="#402c51"/>
+      </g>
+      <path d="M246 39h22m-11-11v22m-181-2h14m-7-7v14m173 43h20m-10-10v20" stroke="#f6cfe3" stroke-width="2" opacity=".63"/>
+    </symbol>
+    <symbol id="a-grid" viewBox="0 0 320 182">
+      <g transform="translate(126 24) rotate(8)">
+        <path d="M0 0h112v112H0Z" fill="#24374d" stroke="#9eadd0" stroke-width="2"/>
+        <path d="M0 0h22v22H0Zm44 22h44v22H44ZM22 44h44v22H22Zm44 22h44v22H66ZM22 88h22v22H22Zm66 0h22v22H88Z" fill="#96b5e1"/>
+        <path d="M22 0v112M44 0v112M66 0v112M88 0v112M0 22h112M0 44h112M0 66h112M0 88h112" stroke="#7b91b3"/>
+      </g>
+    </symbol>
+    <symbol id="a-draw" viewBox="0 0 320 182">
+      <g fill="none" stroke="#efd3ac" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-10 170 69)">
+        <path d="M112 91h112l-17 23h-79Zm55 0V24l-44 58h44m9-50 36 48h-36"/>
+        <path d="M96 128q12 9 25 0 12 9 25 0 12 9 25 0 12 9 25 0 12 9 25 0 12 9 25 0" opacity=".62"/>
+      </g>
+      <path d="m244 39 10 6 8-4m-7 18 9 4 8-5" fill="none" stroke="#efd3ac" stroke-width="2" opacity=".6"/>
+    </symbol>
+    <symbol id="a-loop" viewBox="0 0 320 182">
+      <g transform="translate(112 21)" fill="#a1cfd4" font-family="system-ui,sans-serif" font-size="16" text-anchor="middle">
+        <path d="M0 0h125v125H0ZM25 0v125M50 0v125M75 0v125M100 0v125M0 25h125M0 50h125M0 75h125M0 100h125" stroke="#94b4b6" fill="none" opacity=".35"/>
+        <path d="M25 0h50v25h25v50H75v50H50v-25H0V50h25Z" fill="none" stroke="#9ce1db" stroke-width="3" stroke-linejoin="round"/>
+        <text x="13" y="21">2</text><text x="38" y="45">1</text><text x="88" y="68">3</text><text x="63" y="93">0</text>
+      </g>
+    </symbol>
+    <symbol id="a-craft" viewBox="0 0 320 182">
+      <g transform="translate(173 73) rotate(-12)">
+        <path d="m0-52 54 30v55L0 62l-54-29v-55Z" fill="#4f527e" stroke="#a1a7df" stroke-width="2"/>
+        <path d="m0-52 54 30L0 7l-54-29Z" fill="#848bc2"/><path d="M0 7v55" stroke="#afb7e6" stroke-width="2"/>
+        <path d="m-26-37 53 30v22l-11 6V-1l-54-30" fill="#c5c4ed" opacity=".66"/>
+        <path d="m12 28 30-17v16L12 44Z" fill="#a0aae5" opacity=".57"/>
+      </g>
+      <path d="M76 37h16m-8-8v16m158 12h19m-9-10v20m-1 32h10m-5-5v10" stroke="#c7c4ef" stroke-width="2"/>
+    </symbol>
+    <symbol id="a-snake" viewBox="0 0 320 182">
+      <path d="M0 28h320M0 58h320M0 88h320M0 118h320M0 148h320M40 0v182M80 0v182M120 0v182M160 0v182M200 0v182M240 0v182M280 0v182" stroke="#8cd7ba" opacity=".13"/>
+      <path d="M63 118h42a17 17 0 0 0 17-17V52a18 18 0 0 1 18-18h33a18 18 0 0 1 18 18v38a16 16 0 0 0 16 16h31" fill="none" stroke="#6dd8b0" stroke-width="15" stroke-linecap="round"/>
+      <circle cx="235" cy="104" r="2" fill="#214f49"/><circle cx="268" cy="70" r="5" fill="#e1c1bb"/>
+    </symbol>
+    <symbol id="a-color" viewBox="0 0 320 182">
+      <g transform="translate(176 78)" fill="none" stroke-width="12">
+        <circle r="49" stroke="#b779c1" stroke-dasharray="154 154" transform="rotate(-70)"/>
+        <circle r="37" stroke="#8e83cd" stroke-dasharray="116 116" transform="rotate(70)"/>
+        <circle r="25" stroke="#d3a6b5" stroke-dasharray="79 79" transform="rotate(-140)"/>
+        <circle r="13" stroke="#9985ca"/>
+      </g>
+    </symbol>
+    <symbol id="a-capital" viewBox="0 0 320 182">
+      <g fill="#a9a47a" opacity=".36"><path d="M83 109h27v65H83zm35-20h27v85h-27zm35 15h27v70h-27zm35-38h27v108h-27zm35-24h27v132h-27z"/></g>
+      <path d="m70 108 43-28 32 12 43-44 43-15 19-23m-21 2 21-2-2 20" fill="none" stroke="#e3d2a6" stroke-width="4" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="a-islands" viewBox="0 0 320 182">
+      <g stroke="#badfd8" stroke-width="2">
+        <path d="M43 77 81 59l26 12 21-19 43 9 16 20-15 24-51 17-36-9-33 2-19-17Z" fill="#7baba7"/>
+        <path d="m175 42 36-16 25 10 27-3 16 18-13 21-36 8-19-11-32-3Z" fill="#95b9ad"/>
+        <path d="m194 120 21-14 35 3 14 16-14 15-35 4-21-9Z" fill="#71a5a8"/>
+      </g>
+      <path d="m66 94 23-11 20 7 31-18m62-20 25-10 27 9" fill="none" stroke="#396f73" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="a-ethics" viewBox="0 0 320 182">
+      <g fill="none" stroke="#c5b6da" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M170 26v102m-25 0h50m-80-78h110m-110 0-24 43h48Zm110 0-24 43h48Z"/>
+        <path d="M91 93q24 26 48 0m62 0q24 26 48 0"/>
+        <circle cx="170" cy="50" r="9" fill="#5a496e"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <a class="brand" href="#explore"><svg class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><use href="#i-pad"/></svg>Game Hub</a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="#explore" data-view="explore">Explore</a>
+    <a href="#all" data-view="all">All games</a>
+    <a href="#multiplayer" data-view="multiplayer">Multiplayer</a>
+    <a href="#upcoming" data-view="upcoming">Upcoming</a>
+  </nav>
+  <div class="search" role="search">
+    <svg class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"><use href="#i-search"/></svg>
+    <label class="sr-only" for="search">Search games</label>
+    <input id="search" type="search" placeholder="Search games…" autocomplete="off">
+    <kbd aria-hidden="true">/</kbd>
+    <button class="clear" type="button" aria-label="Clear search" hidden><svg class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"><use href="#i-close"/></svg></button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="rail">
+    <nav id="rail-start" aria-label="Browse"></nav>
+    <p class="rail-label">Genres</p>
+    <nav id="rail-genres" aria-label="Genres"></nav>
+    <div class="back"><a href="./"><svg class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><use href="#i-back"/></svg>Back to blog</a></div>
+  </aside>
+
+  <main>
+    <div id="landing">
+      <section class="hero" aria-labelledby="hero-title">
+        <svg class="hero-art" viewBox="0 0 940 290" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <radialGradient id="aura">
+              <stop stop-color="#8b70ce" stop-opacity=".58"/><stop offset="1" stop-color="#6750a6" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="ribbon" x1="0" y1="1" x2=".8" y2="0">
+              <stop stop-color="#7562bc" stop-opacity="0"/><stop offset=".62" stop-color="#8f77de" stop-opacity=".29"/><stop offset="1" stop-color="#c4afff" stop-opacity=".57"/>
+            </linearGradient>
+            <linearGradient id="shell" x1=".22" y1="0" x2=".75" y2="1">
+              <stop stop-color="#77708e"/><stop offset=".23" stop-color="#3c374f"/><stop offset=".59" stop-color="#242135"/><stop offset=".86" stop-color="#191728"/><stop offset="1" stop-color="#312847"/>
+            </linearGradient>
+            <linearGradient id="rim" x1="0" y1="0" x2=".86" y2="1">
+              <stop stop-color="#d1c5f9"/><stop offset=".43" stop-color="#6b5d98"/><stop offset=".72" stop-color="#2b263e"/><stop offset="1" stop-color="#ac8ded"/>
+            </linearGradient>
+            <linearGradient id="plate" x1="0" y1="0" x2=".75" y2="1">
+              <stop stop-color="#625b78"/><stop offset="1" stop-color="#2b293d"/>
+            </linearGradient>
+            <radialGradient id="stick" cx=".4" cy=".24">
+              <stop stop-color="#5b566f"/><stop offset=".76" stop-color="#302d41"/><stop offset="1" stop-color="#1b192a"/>
+            </radialGradient>
+            <pattern id="points" width="22" height="22" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1" fill="#d2c5ff" opacity=".26"/>
+            </pattern>
+            <filter id="shadow" x="-.24" y="-.3" width="1.48" height="1.65">
+              <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#0c0919" flood-opacity=".75"/>
+            </filter>
+          </defs>
+          <ellipse cx="658" cy="149" rx="325" ry="200" fill="url(#aura)"/>
+          <path d="M195 283C386 130 480 230 601 173S807 38 940 22v268H195Z" fill="url(#ribbon)" opacity=".43"/>
+          <path d="M182 289C373 136 502 236 627 164S815 38 940 22" fill="none" stroke="#b59bf9" stroke-opacity=".44"/>
+          <path d="M268 290c226-114 331-28 490-89 59-22 114-44 182-37v126Z" fill="#100f20" opacity=".63"/>
+          <path d="M268 290c226-114 331-28 490-89 59-22 114-44 182-37" fill="none" stroke="#a58ad7" stroke-opacity=".26"/>
+          <path d="M462 17h453v198H462Z" fill="url(#points)" opacity=".38"/>
+          <g transform="translate(622 147) rotate(-12)" filter="url(#shadow)">
+            <path d="M-112-64c17-9 39-12 58-8l19 5h70l19-5c19-4 41-1 58 8 18 9 31 33 43 64 13 34 27 71 13 88-11 14-33 9-49-5l-39-35c-8-7-15-10-25-10H-55c-10 0-17 3-25 10l-39 35c-16 14-38 19-49 5-14-17 0-54 13-88 12-31 25-55 43-64Z" fill="#161526" stroke="#181427" stroke-width="11" transform="translate(0 7)"/>
+            <path d="M-112-64c17-9 39-12 58-8l19 5h70l19-5c19-4 41-1 58 8 18 9 31 33 43 64 13 34 27 71 13 88-11 14-33 9-49-5l-39-35c-8-7-15-10-25-10H-55c-10 0-17 3-25 10l-39 35c-16 14-38 19-49 5-14-17 0-54 13-88 12-31 25-55 43-64Z" fill="url(#shell)" stroke="url(#rim)" stroke-width="1.8"/>
+            <path d="M-136-40c-10 16-19 37-26 59-12 37-15 62-4 70 10 8 24 4 37-6 14-11 24-29 36-43m229-80c10 16 19 37 26 59 12 37 15 62 4 70-10 8-24 4-37-6-14-11-24-29-36-43" fill="none" stroke="#b5a5e5" stroke-opacity=".27" stroke-width="1.2"/>
+            <path d="M-46-66H46l-7 36a8 8 0 0 1-8 7h-62a8 8 0 0 1-8-7Z" fill="url(#plate)" stroke="#211d34" stroke-width="2"/>
+            <path d="M-44-64h88" stroke="#c0b1df" stroke-opacity=".45"/>
+            <path d="M-104-48h12l2 13 13 2v12l-13 2-2 13h-12l-2-13-13-2v-12l13-2Z" fill="#1b192c" stroke="#8d82a8" stroke-width="1.1"/>
+            <path d="M-102-44h8m-20 14v6m32-6v6m-20 14h8" stroke="#9e94b4" stroke-opacity=".59" stroke-linecap="round"/>
+            <g fill="url(#stick)" stroke="#8d82aa" stroke-width="1.15">
+              <circle cx="97" cy="-45" r="9"/><circle cx="115" cy="-27" r="9"/><circle cx="79" cy="-27" r="9"/><circle cx="97" cy="-9" r="9"/>
+            </g>
+            <g fill="#c7b8e3" opacity=".72" stroke="#c7b8e3" stroke-width="1" fill-opacity="0">
+              <path d="m97-49 4 7h-8Z"/><circle cx="115" cy="-27" r="3"/><path d="M76-30h6v6h-6Zm18 18 6 6m0-6-6 6"/>
+            </g>
+            <g fill="#201e31" stroke="#59536f" stroke-width="1.5"><circle cx="-55" cy="7" r="22"/><circle cx="55" cy="7" r="22"/></g>
+            <g fill="url(#stick)" stroke="url(#rim)" stroke-width="1.3"><circle cx="-55" cy="4" r="16.5"/><circle cx="55" cy="4" r="16.5"/></g>
+            <path d="M-67 1q12-10 24 0m86 0q12-10 24 0" fill="none" stroke="#b4a6d9" stroke-opacity=".36" stroke-linecap="round"/>
+            <rect x="-12" y="-13" width="24" height="3" rx="1.5" fill="#8f7dc2" opacity=".7"/>
+            <g fill="#a296b8" opacity=".56"><circle cx="-8" cy="0" r="1.2"/><circle cx="0" cy="0" r="1.2"/><circle cx="8" cy="0" r="1.2"/><circle cx="-4" cy="5" r="1.2"/><circle cx="4" cy="5" r="1.2"/></g>
+          </g>
+        </svg>
+        <div class="hero-copy">
+          <p class="hero-note">The browser arcade</p>
+          <h1 id="hero-title" tabindex="-1">Discover great games.</h1>
+          <p class="hero-description">Puzzles, quick rounds, and games to play with friends. Pick one and jump in.</p>
+          <div class="hero-actions">
+            <a class="cta primary" href="https://saptarshihalder.github.io/Cryptic-Code/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Play Cyberops<span class="sr-only"> (opens in a new tab)</span></a>
+            <a class="cta" href="#all">Browse games<svg class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><use href="#i-next"/></svg></a>
+          </div>
         </div>
+      </section>
+
+      <section class="shelf" aria-labelledby="genres-title">
+        <div class="shelf-head"><h2 id="genres-title">Genres</h2></div>
+        <nav class="genres" id="genres" aria-label="Browse by genre"></nav>
+      </section>
+      <section class="shelf" aria-labelledby="featured-title">
+        <div class="shelf-head"><h2 id="featured-title">Featured games</h2><a class="more" href="#all">All games <svg class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><use href="#i-next"/></svg></a></div>
+        <div class="games" id="featured"></div>
+      </section>
+      <section class="shelf" aria-labelledby="quick-title">
+        <div class="shelf-head"><h2 id="quick-title"><svg class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"><use href="#i-spark"/></svg>More to play</h2></div>
+        <div class="games" id="quick"></div>
+      </section>
+      <section class="shelf upcoming" aria-labelledby="upcoming-title">
+        <div class="shelf-head"><h2 id="upcoming-title"><svg class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"><use href="#i-clock"/></svg>Coming soon</h2></div>
+        <div class="games" id="soon"></div>
+      </section>
     </div>
+
+    <section id="listing" class="listing" aria-labelledby="listing-title" hidden>
+      <div class="listing-head"><h1 id="listing-title" tabindex="-1"></h1><p id="result-count" role="status"></p></div>
+      <div class="games" id="results"></div>
+      <p class="empty" id="empty" hidden>No games found. Try a different search.</p>
+    </section>
+
+    <noscript><p>Enable JavaScript to browse the full collection.</p></noscript>
+    <footer><a href="./">Back to the blog</a> <span aria-hidden="true">·</span> Game Hub</footer>
+  </main>
+</div>
+
+<script>
+  const cyberops = "https://saptarshihalder.github.io/Cryptic-Code/";
+  const games = [
+    { name: "Cyberops", tags: ["puzzle", "simulation"], detail: "Hacking sim", art: "cyber", tone: "#24546a", url: cyberops },
+    { name: "Shell Shockers", tags: ["action", "multiplayer"], detail: "Multiplayer FPS", art: "shell", tone: "#494353", url: "https://shellshock.io/" },
+    { name: "2048", tags: ["puzzle"], detail: "Number puzzle", art: "tiles", tone: "#684b48", url: "https://gabrielecirulli.github.io/2048/" },
+    { name: "TETR.IO", tags: ["arcade", "puzzle", "multiplayer"], detail: "Falling blocks", art: "blocks", tone: "#403163", url: "https://tetr.io/" },
+    { name: "Lichess", tags: ["strategy", "multiplayer"], detail: "Online chess", art: "chess", tone: "#3d4066", url: "https://lichess.org/" },
+    { name: "Stickman Hook", tags: ["arcade", "action"], detail: "Physics platformer", art: "hook", tone: "#5e4866", url: "https://poki.com/en/g/stickman-hook" },
+    { name: "Little Alchemy 2", tags: ["puzzle", "simulation"], detail: "Element crafting", art: "alchemy", tone: "#2d514a", url: "https://littlealchemy2.com/" },
+    { name: "Skribbl.io", tags: ["multiplayer"], detail: "Draw and guess", art: "skribbl", tone: "#5a345f", url: "https://skribbl.io/" },
+    { name: "Nonograms", tags: ["puzzle"], detail: "Picture logic", art: "grid", tone: "#354b70", url: "https://www.puzzle-nonograms.com/" },
+    { name: "Quick, Draw!", tags: ["arcade"], detail: "Timed sketching", art: "draw", tone: "#6a4c42", url: "https://quickdraw.withgoogle.com/" },
+    { name: "Slitherlink", tags: ["puzzle", "strategy"], detail: "Loop puzzle", art: "loop", tone: "#294950", url: "https://www.puzzle-loop.com/" },
+    { name: "Infinite Craft", tags: ["puzzle", "simulation"], detail: "Sandbox crafting", art: "craft", tone: "#3e426f", url: "https://neal.fun/infinite-craft/" },
+    { name: "Neon Snake", tags: ["arcade"], art: "snake", tone: "#244c45" },
+    { name: "Chromatic Challenge", tags: ["puzzle"], art: "color", tone: "#513c63" },
+    { name: "Billionaire’s Dilemma", tags: ["strategy", "simulation"], art: "capital", tone: "#544e3e" },
+    { name: "Archipelago Architect", tags: ["simulation"], art: "islands", tone: "#305967" },
+    { name: "Ethical Enigmas", tags: ["puzzle"], art: "ethics", tone: "#48395b" }
+  ];
+
+  const genres = {
+    action: ["Action", "action"],
+    arcade: ["Arcade", "pad"],
+    puzzle: ["Puzzle", "puzzle"],
+    strategy: ["Strategy", "strategy"],
+    simulation: ["Simulation", "sim"],
+    multiplayer: ["Multiplayer", "users"]
+  };
+  const pages = { explore: ["Explore", "home"], all: ["All games", "grid"], upcoming: ["Coming soon", "clock"], ...genres };
+  const byId = (id) => document.getElementById(id);
+  const search = byId("search");
+  const clear = document.querySelector(".clear");
+  const shortcut = document.querySelector(".search kbd");
+  const listing = byId("listing");
+  const title = byId("listing-title");
+
+  function icon(name) {
+    return `<svg class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><use href="#i-${name}"/></svg>`;
+  }
+
+  function navLink(key) {
+    const [label, glyph] = pages[key];
+    return `<a href="#${key}" data-view="${key}">${icon(glyph)}${label}</a>`;
+  }
+
+  function card({ name, detail, art, tone, url }) {
+    const cover = `<svg class="game-art" viewBox="0 0 320 182" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <path d="M0 0h320v182H0z" fill="${tone}"/>
+      <path d="M0 0h320v182H0z" fill="url(#tile-light)"/>
+      <use href="#a-${art}" width="320" height="182"/>
+      <path d="M0 0h320v182H0z" fill="url(#tile-floor)"/>
+    </svg>`;
+    const info = `<div class="game-info"><div><h3>${name}</h3><p>${detail ?? "Coming soon"}</p></div>${url ? `<span class="launch">${icon("play")}</span><span class="sr-only"> (opens in a new tab)</span>` : ""}</div>`;
+
+    return url
+      ? `<a class="game" href="${url}" target="_blank" rel="noopener">${cover}${info}</a>`
+      : `<article class="game soon">${cover}${info}</article>`;
+  }
+
+  const playable = games.filter(game => game.url);
+  const upcoming = games.filter(game => !game.url);
+  const genreLinks = Object.keys(genres).map(navLink).join("");
+  byId("rail-start").innerHTML = ["explore", "all", "upcoming"].map(navLink).join("");
+  byId("rail-genres").innerHTML = genreLinks;
+  byId("genres").innerHTML = genreLinks;
+  byId("featured").innerHTML = playable.slice(0, 6).map(card).join("");
+  byId("quick").innerHTML = playable.slice(6).map(card).join("");
+  byId("soon").innerHTML = upcoming.map(card).join("");
+
+  function render() {
+    const hash = location.hash.slice(1);
+    const view = Object.hasOwn(pages, hash) ? hash : "explore";
+    const query = search.value.trim().toLowerCase().replaceAll("’", "'");
+    const exploring = view === "explore" && !query;
+
+    clear.hidden = !search.value;
+    shortcut.hidden = Boolean(search.value);
+    byId("landing").hidden = !exploring;
+    listing.hidden = exploring;
+
+    for (const link of document.querySelectorAll("[data-view]")) {
+      if (link.dataset.view === view && !(view === "explore" && query)) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    }
+
+    if (exploring) return;
+
+    const pool = view === "upcoming" ? upcoming
+      : Object.hasOwn(genres, view) ? playable.filter(game => game.tags.includes(view))
+      : playable;
+    const words = query ? query.split(/\s+/) : [];
+    const matches = pool.filter(game => {
+      const text = [game.name, game.detail, ...game.tags].join(" ").toLowerCase().replaceAll("’", "'");
+      return words.every(word => text.includes(word));
+    });
+
+    title.textContent = view === "explore" ? "Search results" : pages[view][0];
+    byId("result-count").textContent = `${matches.length} ${matches.length === 1 ? "game" : "games"}`;
+    byId("results").innerHTML = matches.map(card).join("");
+    byId("empty").hidden = Boolean(matches.length);
+  }
+
+  function resetSearch() {
+    search.value = "";
+    render();
+  }
+
+  search.addEventListener("input", () => {
+    render();
+    window.scrollTo(0, 0);
+  });
+
+  clear.addEventListener("click", () => {
+    resetSearch();
+    search.focus();
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && document.activeElement === search && search.value) {
+      event.preventDefault();
+      resetSearch();
+    }
+    if (event.key !== "/" || event.altKey || event.ctrlKey || event.metaKey) return;
+    if (event.target.closest("input, textarea, select, [contenteditable]")) return;
+    event.preventDefault();
+    search.focus();
+  });
+
+  document.addEventListener("click", event => {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
+    if (link.hash === location.hash) {
+      resetSearch();
+      (listing.hidden ? byId("hero-title") : title).focus({ preventScroll: true });
+      window.scrollTo(0, 0);
+    }
+  });
+
+  window.addEventListener("hashchange", () => {
+    resetSearch();
+    (listing.hidden ? byId("hero-title") : title).focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+  });
+
+  render();
+</script>
 </body>
 </html>
