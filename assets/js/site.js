@@ -7,7 +7,6 @@
     nav.classList.remove('is-open');
     toggle.setAttribute('aria-expanded', 'false');
     toggle.querySelector('span').textContent = 'menu';
-    document.body.classList.remove('nav-open');
     if (restoreFocus) toggle.focus();
   };
 
@@ -16,7 +15,6 @@
       const open = nav.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', String(open));
       toggle.querySelector('span').textContent = open ? 'close' : 'menu';
-      document.body.classList.toggle('nav-open', open);
     });
 
     nav.addEventListener('click', () => closeNav());
